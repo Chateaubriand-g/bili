@@ -1,12 +1,12 @@
-DB:
-  User: "user"
-  Password: "123456"
-  Host: "127.0.0.1"
-  Port: "3306"
+db:
+  user: "user"
+  password: "123456"
+  host: "127.0.0.1"
+  port: "3306"
 
-Consul:
-  Addr: "127.0.0.1:8500"
+consul:
+  addr: "127.0.0.1:8500"
 
-Server:
-  Addr: "127.0.0.1:8500"
-  Port: "8081"
+server:
+  addr: "127.0.0.1:8500"
+  port: "8081"

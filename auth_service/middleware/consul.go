@@ -2,4 +2,5 @@ package middleware
 
 func RegisterServiceToConsul(cfg *config.Config) {
 	config := api.DefaultConfig()
+	config.Address = cfg.Consul.Addr
 }
