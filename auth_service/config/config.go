@@ -7,12 +7,24 @@ import (
 )
 
 type Config struct {
-	DSN struct {
+	DB struct {
 		User     string `mapstructure:"user"`
 		Password string `mapstructure:"password"`
 		Host     string `mapstructure:"host"`
 		Port     string `mapstructure:"port"`
-	} `mapstructure:"dsn"`
+	} `mapstructure:"db"`
+
+	Consul struct {
+		Addr    string        `mapstructure:"addr"`
+		Token   string        `mapstructure:"token"`
+		Scheme  string        `mapstructure:"scheme"`
+		Timeout time.Duration `mapstructure:"timeout"`
+	} `mapstructure:"consul"`
+
+	Server struct {
+		Addr string `mapstructure:"addr"`
+		Port string `mapstructure:"port"`
+	}`mapstructure:"server"`
 }
 
 func LoadConfig() (*Config, error) {
