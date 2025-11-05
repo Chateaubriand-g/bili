@@ -1,11 +1,34 @@
-FROM go:1.25-alpine
+FROM go:1.25-alpine AS builder
+
 WORKDIR /app
 
 COPY go.mod go.sum ./
+
 RUN go env -w GOPROXY=https://goproxy.cn,direct && \
-    go mod tidy
+    go mod download
 
 COPY . .
-RUN go build -o gateway main.go
+
+# 编译网关服务：
+# 1. CGO_ENABLED=0：禁用 CGO，生成静态二进制（不依赖系统库，Alpine 可直接运行）
+# 2. -ldflags "-w -s"：移除调试信息，减小二进制体积
+# 3. -o gateway：指定输出文件名为 gateway（与启动命令一致）
+RUN CGO_ENABLED=0 go build -ldflags "-w -s" -o gateway main.go
+
+
+FROM alpine:latest
+
+RUN addgroup -S appgroup && adduser -S appuser -G appgroup
+
+WORKDIR /app
+
+COPY --from=builder /app/gateway ./
+
+RUN chmod +x ./gateway && \
+    chown -R appuser:appgroup /app
+
+USER appuser
+
 EXPOSE 8080
+
 CMD ["./gateway"]
