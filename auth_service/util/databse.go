@@ -1,9 +1,10 @@
 package util
 
 import (
-	"bili/auth_service/config"
-	"bili/auth_service/model"
 	"fmt"
+
+	"github.com/Chateaubriand-g/bili/auth_service/config"
+	"github.com/Chateaubriand-g/bili/auth_service/model"
 
 	"gorm.io/driver/mysql"
 	"gorm.io/gorm"
@@ -12,10 +13,10 @@ import (
 func CreateDB(config *config.Config) (*gorm.DB, error) {
 	var err error
 	dsn := fmt.Sprintf("%s:%s@tcp(%s:%s)/biliuser?charset=utf8mb4&parseTime=True&loc=Local",
-		config.DSN.User,
-		config.DSN.Password,
-		config.DSN.Host,
-		config.DSN.Port,
+		config.DB.User,
+		config.DB.Password,
+		config.DB.Host,
+		config.DB.Port,
 	)
 	db, err := gorm.Open(mysql.Open(dsn), &gorm.Config{})
 	if err != nil {

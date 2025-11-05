@@ -1,6 +1,11 @@
 FROM go:1.25-alpine
 WORKDIR /app
+
+COPY go.mod go.sum ./
+RUN go env -w GOPROXY=https://goproxy.cn,direct && \
+    go mod tidy
+
 COPY . .
-RUN go build main.go
+RUN go build -o auth_service main.go
 EXPOSE 8081
-CMD ["/auth_service"]
+CMD ["./auth_service"]

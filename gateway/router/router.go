@@ -1,7 +1,7 @@
 package router
 
 import (
-	"bili/gateway/proxy"
+	"github.com/Chateaubriand-g/bili/gateway/proxy"
 
 	"github.com/gin-gonic/gin"
 	"github.com/hashicorp/consul/api"

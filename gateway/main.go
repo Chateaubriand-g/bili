@@ -1,10 +1,11 @@
 package gateway
 
 import (
-	"bili/gateway/config"
-	"bili/gateway/consul"
-	"bili/gateway/router"
 	"log"
+
+	"github.com/Chateaubriand-g/bili/gateway/config"
+	"github.com/Chateaubriand-g/bili/gateway/consul"
+	"github.com/Chateaubriand-g/bili/gateway/router"
 )
 
 func main() {

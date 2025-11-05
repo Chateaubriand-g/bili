@@ -1,12 +1,13 @@
 package middleware
 
 import (
-	"bili/auth_service/config"
 	"errors"
 	"fmt"
 	"net/http"
 	"strings"
 	"time"
+
+	"github.com/Chateaubriand-g/bili/auth_service/config"
 
 	"github.com/gin-gonic/gin"
 	"github.com/golang-jwt/jwt/v5"

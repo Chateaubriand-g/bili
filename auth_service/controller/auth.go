@@ -1,10 +1,11 @@
 package controller
 
 import (
-	"bili/auth_service/dao"
-	"bili/auth_service/middleware"
-	"bili/auth_service/model"
 	"net/http"
+
+	"github.com/Chateaubriand-g/bili/auth_service/dao"
+	"github.com/Chateaubriand-g/bili/auth_service/middleware"
+	"github.com/Chateaubriand-g/bili/auth_service/model"
 
 	"github.com/gin-gonic/gin"
 	"golang.org/x/crypto/bcrypt"

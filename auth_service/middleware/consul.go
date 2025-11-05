@@ -1,9 +1,10 @@
 package middleware
 
 import (
-	"bili/auth_service/config"
 	"fmt"
 	"log"
+
+	"github.com/Chateaubriand-g/bili/auth_service/config"
 
 	"github.com/hashicorp/consul/api"
 )

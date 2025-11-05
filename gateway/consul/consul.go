@@ -1,7 +1,7 @@
 package consul
 
 import (
-	"bili/gateway/config"
+	"github.com/Chateaubriand-g/bili/gateway/config"
 
 	"github.com/hashicorp/consul/api"
 )

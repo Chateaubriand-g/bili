@@ -1,12 +1,13 @@
 package middleware
 
 import (
-	"bili/gateway/config"
 	"errors"
 	"fmt"
 	"net/http"
 	"strings"
 	"time"
+
+	"github.com/Chateaubriand-g/bili/gateway/config"
 
 	"github.com/gin-gonic/gin"
 	"github.com/golang-jwt/jwt/v5"

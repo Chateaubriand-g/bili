@@ -1,5 +1,11 @@
 FROM go:1.25-alpine
 WORKDIR /app
+
+COPY go.mod go.sum ./
+RUN go env -w GOPROXY=https://goproxy.cn,direct && \
+    go mod tidy
+
 COPY . .
-RUN go build main.go
-CMD ["/gateway"]
+RUN go build -o gateway main.go
+EXPOSE 8080
+CMD ["./gateway"]

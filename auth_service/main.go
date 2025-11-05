@@ -3,11 +3,11 @@ package authservice
 import (
 	"log"
 
-	"bili/auth_service/config"
-	"bili/auth_service/controller"
-	"bili/auth_service/dao"
-	"bili/auth_service/middleware"
-	"bili/auth_service/util"
+	"github.com/Chateaubriand-g/bili/auth_service/config"
+	"github.com/Chateaubriand-g/bili/auth_service/controller"
+	"github.com/Chateaubriand-g/bili/auth_service/dao"
+	"github.com/Chateaubriand-g/bili/auth_service/middleware"
+	"github.com/Chateaubriand-g/bili/auth_service/util"
 
 	"github.com/gin-gonic/gin"
 )

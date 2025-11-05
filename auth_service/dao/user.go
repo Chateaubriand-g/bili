@@ -1,7 +1,7 @@
 package dao
 
 import (
-	"bili/auth_service/model"
+	"github.com/Chateaubriand-g/bili/auth_service/model"
 
 	"gorm.io/gorm"
 )
