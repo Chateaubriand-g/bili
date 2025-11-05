@@ -1,7 +1,8 @@
-package gateway
+package main
 
 import (
 	"log"
+	"fmt"
 
 	"github.com/Chateaubriand-g/bili/gateway/config"
 	"github.com/Chateaubriand-g/bili/gateway/consul"
@@ -18,8 +19,9 @@ func main() {
 	if err != nil {
 		log.Fatalf("consul init failed: %v", err)
 	}
+
 	r := router.InitRouter(cli)
-	addr := cfg.Gateway.Addr
+	addr := fmt.Sprintf(":%s",cfg.Gateway.Addr)
 	if err := r.Run(addr); err != nil {
 		log.Fatalf("gatway starting failed: %v", err)
 	}

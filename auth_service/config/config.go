@@ -3,6 +3,7 @@ package config
 import (
 	"fmt"
 	"time"
+	"strings"
 
 	"github.com/spf13/viper"
 )
@@ -17,6 +18,7 @@ type Config struct {
 
 	Consul struct {
 		Addr    string        `mapstructure:"addr"`
+		Port	string	      `mapstructure:"port"`
 		Token   string        `mapstructure:"token"`
 		Scheme  string        `mapstructure:"scheme"`
 		Timeout time.Duration `mapstructure:"timeout"`
@@ -44,8 +46,9 @@ func LoadConfig() (*Config, error) {
 		return nil, fmt.Errorf("viper raedinconfig failed: %w", err)
 	}
 
-	viper.AutomaticEnv()
 	viper.SetEnvPrefix("AUTH")
+	viper.SetEnvKeyReplacer(strings.NewReplacer(".","_"))
+	viper.AutomaticEnv()
 
 	var config Config
 	if err := viper.Unmarshal(&config); err != nil {

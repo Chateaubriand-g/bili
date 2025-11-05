@@ -11,7 +11,10 @@ import (
 
 func RegisterServiceToConsul(cfg *config.Config) (func(), error) {
 	consulcfg := api.DefaultConfig()
-	consulcfg.Address = cfg.Consul.Addr
+
+	cfgAddr := fmt.Sprintf("%s:%s",cfg.Consul.Addr,cfg.Consul.Port)
+
+	consulcfg.Address = cfgAddr
 	client, err := api.NewClient(consulcfg)
 	if err != nil {
 		return nil, fmt.Errorf("initial consul client failed: %w", err)

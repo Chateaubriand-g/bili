@@ -1,4 +1,4 @@
-package authservice
+package main
 
 import (
 	"log"
@@ -34,11 +34,11 @@ func main() {
 
 	r := gin.Default()
 
-	api := r.Group("/v1")
+	api := r.Group("/api")
 	{
-		api.POST("/auth/register", authCTL.Register)
-		api.POST("/auth/login", authCTL.Login)
-		api.POST("/auth/logout", authCTL.Logout)
+		api.POST("/user/account/register", authCTL.Register)
+		api.POST("/user/account/login", authCTL.Login)
+		api.POST("/user/account/logout", authCTL.Logout)
 	}
 
 	r.Run(":8081")

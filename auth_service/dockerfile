@@ -24,6 +24,7 @@ WORKDIR /app
 
 # 从编译阶段复制编译好的二进制文件（仅复制必要文件，减小镜像体积）
 COPY --from=builder /app/auth_service ./
+COPY --from=builder /app/config /app/config
 
 # 赋予二进制执行权限（关键：避免 permission denied 错误）
 RUN chmod +x ./auth_service && \

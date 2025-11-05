@@ -14,15 +14,24 @@ var (
 	mtx sync.Mutex
 )
 
+func init(){
+	initRandSeed()
+}
+
 func initRandSeed() {
 	source := rand.NewSource(time.Now().UnixNano())
 	rnd = rand.New(source)
 }
 
 func PickService(c *api.Client, name string) (*api.AgentService, error) {
+	if c == nil {
+		return nil,fmt.Errorf("consul client is nil")
+	}
+
+
 	entries, _, err := c.Health().Service(name, "", true, nil)
 	if err != nil {
-		return nil, fmt.Errorf("Counsul search failed: %w", err)
+		return nil, fmt.Errorf("Counsul service lookup failed: %w", err)
 	}
 	if len(entries) == 0 {
 		return nil, fmt.Errorf("%s exists no instance", name)

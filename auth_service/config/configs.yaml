@@ -6,7 +6,13 @@ db:
 
 consul:
   addr: "127.0.0.1:8500"
+  port: ""
+  scheme: ""
+  timeout: ""
 
 server:
+  id:   ""
+  name: ""
   addr: "127.0.0.1:8500"
   port: "8081"
+

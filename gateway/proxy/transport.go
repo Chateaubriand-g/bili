@@ -7,7 +7,7 @@ import (
 	"net/http"
 	"net/http/httputil"
 	"net/url"
-	"strings"
+	//"strings"
 	"sync"
 
 	"github.com/gin-gonic/gin"
@@ -20,7 +20,8 @@ func ReverseProxy(cli *api.Client, serviceName string) gin.HandlerFunc {
 	return func(c *gin.Context) {
 		serv, err := PickService(cli, serviceName)
 		if err != nil {
-			c.JSON(http.StatusBadGateway, gin.H{"msg": "service unavaiable"})
+			c.JSON(http.StatusBadGateway, gin.H{"msg": "service unavailable"})
+			return
 		}
 
 		target := fmt.Sprintf("http://%s:%d", serv.Address, serv.Port)
