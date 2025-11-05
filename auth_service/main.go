@@ -6,6 +6,7 @@ import (
 	"bili/auth_service/config"
 	"bili/auth_service/controller"
 	"bili/auth_service/dao"
+	"bili/auth_service/middleware"
 	"bili/auth_service/util"
 
 	"github.com/gin-gonic/gin"
@@ -16,6 +17,12 @@ func main() {
 	if err != nil {
 		log.Fatalf("init config failed: %v", err)
 	}
+
+	deregiter, err := middleware.RegisterServiceToConsul(cfg)
+	if err != nil {
+		log.Fatalf("register service failed: %v", err)
+	}
+	defer deregiter()
 
 	db, err := util.CreateDB(cfg)
 	if err != nil {

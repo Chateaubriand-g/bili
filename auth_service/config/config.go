@@ -2,6 +2,7 @@ package config
 
 import (
 	"fmt"
+	"time"
 
 	"github.com/spf13/viper"
 )
@@ -22,9 +23,16 @@ type Config struct {
 	} `mapstructure:"consul"`
 
 	Server struct {
+		ID   string `mapstructure:"id"`
+		Name string `mapstructure:"name"`
 		Addr string `mapstructure:"addr"`
-		Port string `mapstructure:"port"`
-	}`mapstructure:"server"`
+		Port int    `mapstructure:"port"`
+		/*
+			HealthCheckPath string example /health
+			HealthCheckInterval time.Duration
+			HealthCheckTimeout time.Duration
+		*/
+	} `mapstructure:"server"`
 }
 
 func LoadConfig() (*Config, error) {

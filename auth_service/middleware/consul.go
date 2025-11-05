@@ -1,6 +1,39 @@
 package middleware
 
-func RegisterServiceToConsul(cfg *config.Config) {
-	config := api.DefaultConfig()
-	config.Address = cfg.Consul.Addr
+import (
+	"bili/auth_service/config"
+	"fmt"
+	"log"
+
+	"github.com/hashicorp/consul/api"
+)
+
+func RegisterServiceToConsul(cfg *config.Config) (func(), error) {
+	consulcfg := api.DefaultConfig()
+	consulcfg.Address = cfg.Consul.Addr
+	client, err := api.NewClient(consulcfg)
+	if err != nil {
+		return nil, fmt.Errorf("initial consul client failed: %w", err)
+	}
+
+	registration := &api.AgentServiceRegistration{
+		ID:      cfg.Server.ID,
+		Name:    cfg.Server.Name,
+		Address: cfg.Server.Addr,
+		Port:    cfg.Server.Port,
+	}
+
+	if err := client.Agent().ServiceRegister(registration); err != nil {
+		return nil, fmt.Errorf("service register failed: %w", err)
+	}
+
+	deregister := func() {
+		if err := client.Agent().ServiceDeregister(cfg.Server.ID); err != nil {
+			log.Printf("service deregister failed: %v", err)
+			return
+		}
+		log.Printf("service deregister successful: %v", err)
+	}
+
+	return deregister, nil
 }
