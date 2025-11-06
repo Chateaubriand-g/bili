@@ -2,6 +2,7 @@ package proxy
 
 import (
 	"bytes"
+	"log"
 	"fmt"
 	"io"
 	"net/http"
@@ -20,7 +21,7 @@ func ReverseProxy(cli *api.Client, serviceName string) gin.HandlerFunc {
 	return func(c *gin.Context) {
 		serv, err := PickService(cli, serviceName)
 		if err != nil {
-			c.JSON(http.StatusBadGateway, gin.H{"msg": "service unavailable"})
+			c.JSON(http.StatusBadGateway, gin.H{"msg": "service unavailable","error":err.Error()})
 			return
 		}
 
@@ -50,12 +51,15 @@ func ReverseProxy(cli *api.Client, serviceName string) gin.HandlerFunc {
 			proxy = newProxy
 		}
 
-		originalPath := c.Request.URL.Path
-		trimPath := strings.TrimPrefix(originalPath, "/api")
-		if trimPath == "" {
-			trimPath = "/"
-		}
-		c.Request.URL.Path = trimPath
+		//ioriginalPath := c.Request.URL.Path
+		//trimPath := strings.TrimPrefix(originalPath, "/api")
+		//if trimPath == "" {
+		//	trimPath = "/"
+		//}
+		//c.Request.URL.Path = trimPath
+		
+		log.Printf("[TRACE] %s - Final path for forwarding: %s",123123,c.Request.URL.Path)
+
 		proxy.(*httputil.ReverseProxy).ServeHTTP(c.Writer, c.Request)
 	}
 }

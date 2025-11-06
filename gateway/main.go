@@ -20,7 +20,7 @@ func main() {
 		log.Fatalf("consul init failed: %v", err)
 	}
 
-	r := router.InitRouter(cli)
+	r := router.InitRouter(cli,cfg)
 	addr := fmt.Sprintf(":%s",cfg.Gateway.Addr)
 	if err := r.Run(addr); err != nil {
 		log.Fatalf("gatway starting failed: %v", err)

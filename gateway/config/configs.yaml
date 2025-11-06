@@ -2,7 +2,8 @@ gateway:
   addr: ":8888"
 
 consul:
-  addr: "127.0.0.1:8500"
+  addr: "127.0.0.1"
+  port: ""
   token: ""
   scheme: ""
   timeout: ""
