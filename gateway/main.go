@@ -1,11 +1,12 @@
 package main
 
 import (
-	"log"
 	"fmt"
+	"log"
 
 	"github.com/Chateaubriand-g/bili/gateway/config"
 	"github.com/Chateaubriand-g/bili/gateway/consul"
+	"github.com/Chateaubriand-g/bili/gateway/middleware"
 	"github.com/Chateaubriand-g/bili/gateway/router"
 )
 
@@ -20,8 +21,14 @@ func main() {
 		log.Fatalf("consul init failed: %v", err)
 	}
 
-	r := router.InitRouter(cli,cfg)
-	addr := fmt.Sprintf(":%s",cfg.Gateway.Addr)
+	tracer, reporter, err := middleware.InitZipkin(cfg)
+	if err != nil {
+		log.Fatalf("initZipkin failed: %v", err)
+	}
+	defer middleware.CloseZipkin(reporter)
+
+	r := router.InitRouter(cli, cfg, tracer)
+	addr := fmt.Sprintf(":%s", cfg.Gateway.Addr)
 	if err := r.Run(addr); err != nil {
 		log.Fatalf("gatway starting failed: %v", err)
 	}

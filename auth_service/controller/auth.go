@@ -33,7 +33,7 @@ func (ctl *AuthController) Register(c *gin.Context) {
 		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
 		return
 	}
-	c.JSON(http.StatusOK, gin.H{"ok": true})
+	c.JSON(http.StatusOK, gin.H{"data": gin.H{"code": 200, "message": "注册成功"}})
 }
 
 func (ctl *AuthController) Login(c *gin.Context) {

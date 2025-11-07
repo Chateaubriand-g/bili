@@ -15,11 +15,17 @@ type Config struct {
 
 	Consul struct {
 		Addr    string        `mapstructure:"addr"`
-		Port	string	      `mapstructure:"port"`
+		Port    string        `mapstructure:"port"`
 		Token   string        `mapstructure:"token"`
 		Scheme  string        `mapstructure:"scheme"`
 		Timeout time.Duration `mapstructure:"timeout"`
 	} `mapstructure:"consul"`
+
+	Zipkin struct {
+		URL         string  `mapstructure:"url"`
+		ServiceName string  `mapstructure:"servicename"`
+		SampleRate  float64 `mapstructure:"samplerate"`
+	} `mapstructure:"zipkin"`
 
 	Jwt struct {
 		Secret string `mapstructure:"secret"`
@@ -35,7 +41,7 @@ func LoadConfig() (*Config, error) {
 		return nil, fmt.Errorf("viper readinconfig failed: %w", err)
 	}
 	viper.SetEnvPrefix("GATE")
-	viper.SetEnvKeyReplacer(strings.NewReplacer(".","_"))
+	viper.SetEnvKeyReplacer(strings.NewReplacer(".", "_"))
 	viper.AutomaticEnv()
 
 	var config Config
