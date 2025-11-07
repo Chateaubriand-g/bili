@@ -2,8 +2,8 @@ package config
 
 import (
 	"fmt"
-	"time"
 	"strings"
+	"time"
 
 	"github.com/spf13/viper"
 )
@@ -18,7 +18,7 @@ type Config struct {
 
 	Consul struct {
 		Addr    string        `mapstructure:"addr"`
-		Port	string	      `mapstructure:"port"`
+		Port    string        `mapstructure:"port"`
 		Token   string        `mapstructure:"token"`
 		Scheme  string        `mapstructure:"scheme"`
 		Timeout time.Duration `mapstructure:"timeout"`
@@ -35,6 +35,12 @@ type Config struct {
 			HealthCheckTimeout time.Duration
 		*/
 	} `mapstructure:"server"`
+
+	Zipkin struct {
+		URL         string  `mapstructure:"url"`
+		ServiceName string  `mapstructure:"servicename"`
+		SampleRate  float64 `mapstructure:"samplerate"`
+	} `mapstructure:"zipkin"`
 }
 
 func LoadConfig() (*Config, error) {
@@ -47,7 +53,7 @@ func LoadConfig() (*Config, error) {
 	}
 
 	viper.SetEnvPrefix("AUTH")
-	viper.SetEnvKeyReplacer(strings.NewReplacer(".","_"))
+	viper.SetEnvKeyReplacer(strings.NewReplacer(".", "_"))
 	viper.AutomaticEnv()
 
 	var config Config

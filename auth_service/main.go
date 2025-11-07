@@ -18,6 +18,12 @@ func main() {
 		log.Fatalf("init config failed: %v", err)
 	}
 
+	tracer, repoter, err := middleware.InitZipkin(cfg)
+	if err != nil {
+		log.Fatalf("initZipkin failed: %v", err)
+	}
+	defer middleware.CloseZipkin(repoter)
+
 	deregiter, err := middleware.RegisterServiceToConsul(cfg)
 	if err != nil {
 		log.Fatalf("register service failed: %v", err)
@@ -33,6 +39,10 @@ func main() {
 	authCTL := controller.NewAuthController(userDAO)
 
 	r := gin.Default()
+
+	if tracer != nil {
+		r.Use(middleware.ZipkinMiddleware(tracer))
+	}
 
 	api := r.Group("/api")
 	{

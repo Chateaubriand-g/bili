@@ -6,6 +6,7 @@ require (
 	github.com/gin-gonic/gin v1.11.0
 	github.com/golang-jwt/jwt/v5 v5.3.0
 	github.com/hashicorp/consul/api v1.33.0
+	github.com/openzipkin/zipkin-go v0.4.3
 	github.com/spf13/viper v1.21.0
 	golang.org/x/crypto v0.43.0
 	gorm.io/driver/mysql v1.6.0
@@ -68,5 +69,6 @@ require (
 	golang.org/x/sys v0.37.0 // indirect
 	golang.org/x/text v0.30.0 // indirect
 	golang.org/x/tools v0.37.0 // indirect
+	google.golang.org/grpc v1.63.2 // indirect
 	google.golang.org/protobuf v1.36.9 // indirect
 )

@@ -17,7 +17,7 @@ type AuthController struct{ dao dao.UserDAO }
 func NewAuthController(dao dao.UserDAO) *AuthController { return &AuthController{dao: dao} }
 
 func (ctl *AuthController) Register(c *gin.Context) {
-	log.Println("receiver request",c.Request.URL.Path)
+	log.Println("receiver request", c.Request.URL.Path)
 	var in struct{ Username, Password, Email string }
 	if err := c.ShouldBindJSON(&in); err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
