@@ -4,11 +4,12 @@ CREATE TABLE IF NOT EXISTS `users` (
     `username` varchar(64) NOT NULL UNIQUE,
     `password` varchar(64) NOT NULL,
     `nickname` varchar(32) DEFAULT 'guet',
+    `gender` varchar(8) DEFAULT NULL,
+    `description` text DEFAULT '这是简介.',
     `email` varchar(128) DEFAULT NULL,
     `avatar` varchar(255) DEFAULT NULL,
     `create_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    PRIMARY KEY (`id`),
-    INDEX idx_username (`username`)
+    PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=20 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 CREATE TABLE IF NOT EXISTS `videos` (

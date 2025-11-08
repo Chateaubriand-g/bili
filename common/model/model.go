@@ -3,25 +3,33 @@ package model
 import "time"
 
 type User struct {
-	ID         uint      `json:"id" gorm:"primarykey,increment"`
-	UserName   string    `json:"username" gorm:"size:50,uniqueIndex,not null"`
-	PassWord   string    `json:"password" gorm:"size:255,not null"`
-	Email      string    `json:"email" gorm:"size:50"`
-	NickName   string    `json:"nickname" gorm:"size:50,default:guet"`
-	Avatar     string    `json:"avatat" gorm:"size:255,default:''"`
-	CreateTime time.Time `json:"create_time" gorm:"autocreatetime"`
+	ID          uint      `json:"id"`
+	UserName    string    `json:"username"`
+	PassWord    string    `json:"password"`
+	NickName    string    `json:"nickname"`
+	Gender      string    `json:"gender"`
+	Description string    `json:"description"`
+	Email       string    `json:"email"`
+	Avatar      string    `json:"avatat"`
+	CreateTime  time.Time `json:"create_time"`
 }
 
 type UserDTO struct {
-	ID       uint   `json:"id"`
-	UserName string `json:"username"`
-	Email    string `json:"email"`
-	NickName string `json:"nickname"`
-	Avatar   string `json:"avatat"`
+	ID          uint   `json:"id"`
+	UserName    string `json:"username"`
+	NickName    string `json:"nickname"`
+	Gender      string `json:"gender"`
+	Description string `json:"description"`
+	Email       string `json:"email"`
+	Avatar      string `json:"avatar"`
 }
 
 type UserInfoUpdate struct {
-	NickName string `json:"nickname"`
-	Email    string `json:"email"`
-	Avatar   string `json:"avatar"`
+	NickName    string `json:"nickname"`
+	Description string `json:"description"`
+	Gender      string `json:"gender"`
+}
+
+type UserAvatatUpdate struct {
+	Avatar string `json:"avatar"`
 }

@@ -8,8 +8,8 @@ import (
 )
 
 type UserDAO interface {
-	FindByUserID(userID string) (*model.User, error)
-	Update(data *model.User) error
+	FindByUserID(userID int) (*model.User, error)
+	Update(userID int, data interface{}) error
 }
 
 type userDAO struct {
@@ -22,7 +22,7 @@ func NewUserDAO(db *gorm.DB) UserDAO {
 	}
 }
 
-func (u *userDAO) FindByUserID(userID string) (*model.User, error) {
+func (u *userDAO) FindByUserID(userID int) (*model.User, error) {
 	var res model.User
 
 	if err := u.DB.Where("id = ?", userID).First(&res).Error; err != nil {
@@ -32,7 +32,7 @@ func (u *userDAO) FindByUserID(userID string) (*model.User, error) {
 	return &res, nil
 }
 
-func (u *userDAO) Update(userID string, data *model.User) error {
+func (u *userDAO) Update(userID int, data interface{}) error {
 	if err := u.DB.Model(&model.User{}).Where("id = ?", userID).Updates(data).Error; err != nil {
 		return fmt.Errorf("sql updates failed: %w", err)
 	}
