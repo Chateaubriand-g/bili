@@ -30,7 +30,7 @@ func main() {
 	}
 	defer deregiter()
 
-	db, err := util.CreateDB(cfg)
+	db, err := util.InitDatabase(cfg)
 	if err != nil {
 		log.Fatalf("init databse failed: %v", err)
 	}

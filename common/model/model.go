@@ -9,5 +9,13 @@ type User struct {
 	Email      string    `json:"email" gorm:"size:50"`
 	NickName   string    `json:"nickname" gorm:"size:50,default:guet"`
 	Avatar     string    `json:"avatat" gorm:"size:255,default:''"`
-	CreateTime time.Time `json:"createtime" gorm:"autocreatetime"`
+	CreateTime time.Time `json:"createTime" gorm:"autocreatetime"`
+}
+
+type UserDTO struct {
+	ID       uint   `json:"id"`
+	UserName string `json:"username"`
+	Email    string `json:"email"`
+	NickName string `json:"nickname"`
+	Avatar   string `json:"avatat"`
 }
