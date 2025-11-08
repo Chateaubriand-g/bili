@@ -6,7 +6,9 @@ import (
 
 	"github.com/Chateaubriand-g/bili/auth_service/dao"
 	"github.com/Chateaubriand-g/bili/auth_service/middleware"
-	"github.com/Chateaubriand-g/bili/auth_service/model"
+
+	//"github.com/Chateaubriand-g/bili/auth_service/model"
+	"github.com/Chateaubriand-g/bili/common/model"
 
 	"github.com/gin-gonic/gin"
 	"golang.org/x/crypto/bcrypt"

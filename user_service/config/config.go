@@ -4,7 +4,6 @@ import (
 	"fmt"
 	"time"
 
-	"github.com/Chateaubriand-g/bili/user_service/config"
 	"github.com/spf13/viper"
 )
 
@@ -43,7 +42,7 @@ type Config struct {
 	} `mapstructure:"zipkin"`
 }
 
-func LoadConfig() (*config.Config, error) {
+func LoadConfig() (*Config, error) {
 	viper.SetConfigName("configs")
 	viper.SetConfigType("yaml")
 	viper.AddConfigPath("./config")
