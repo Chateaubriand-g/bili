@@ -35,7 +35,7 @@ RUN chmod +x ./user_service && \
 USER appuser
 
 # 暴露网关服务的端口（根据你的代码监听端口修改，如 8081）
-EXPOSE 8081
+EXPOSE 8082
 
 # 启动命令（运行编译好的二进制）
 CMD ["./user_service"]
