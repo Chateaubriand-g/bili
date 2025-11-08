@@ -2,8 +2,6 @@ module github.com/Chateaubriand-g/bili/user_service
 
 go 1.25.3
 
-replace github.com/Chateaubriand-g/bili/common => ../common
-
 require (
 	github.com/Chateaubriand-g/bili/common v0.0.0-20251108030406-2b248a572f62
 	github.com/aliyun/alibabacloud-oss-go-sdk-v2 v1.3.0
