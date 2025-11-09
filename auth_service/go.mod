@@ -15,7 +15,7 @@ require (
 
 require (
 	filippo.io/edwards25519 v1.1.0 // indirect
-	github.com/Chateaubriand-g/bili/common v0.0.0-20251108030406-2b248a572f62 // indirect
+	github.com/Chateaubriand-g/bili/common v0.0.0-20251109023503-bd0b77bdf53c // indirect
 	github.com/armon/go-metrics v0.4.1 // indirect
 	github.com/bytedance/sonic v1.14.0 // indirect
 	github.com/bytedance/sonic/loader v0.3.0 // indirect
