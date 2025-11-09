@@ -11,7 +11,7 @@ type User struct {
 	Description string    `json:"description" gorm:"column:description;type:text"`
 	Email       string    `json:"email" gorm:"column:email;type:varchar(128)"`
 	Avatar      string    `json:"avatar" gorm:"column:avatar;type:varchar(255)"`
-	CreateTime  time.Time `json:"create_time" gorm:"column:create_time;type:datetime"`
+	CreateTime  time.Time `json:"create_time" gorm:"column:create_time;type:datetime;->"`
 }
 
 type UserDTO struct {
