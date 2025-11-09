@@ -4,6 +4,8 @@ github.com/Chateaubriand-g/bili/common v0.0.0-20251108030406-2b248a572f62 h1:4T6
 github.com/Chateaubriand-g/bili/common v0.0.0-20251108030406-2b248a572f62/go.mod h1:00QvHQE17VbGqeCUDAJATYkCvOWo8o96zyb/zUSPCBA=
 github.com/Chateaubriand-g/bili/common v0.0.0-20251108092852-0192c1cc68ba h1:Jq9gV8+yVnDLflzTWrKED5/XBQKBrkdm04svE55tcFI=
 github.com/Chateaubriand-g/bili/common v0.0.0-20251108092852-0192c1cc68ba/go.mod h1:00QvHQE17VbGqeCUDAJATYkCvOWo8o96zyb/zUSPCBA=
+github.com/Chateaubriand-g/bili/common v0.0.0-20251109023503-bd0b77bdf53c h1:hu2eTsovmFmdbci3Ta5HHq8F5nXMFcw2j8asczVibUc=
+github.com/Chateaubriand-g/bili/common v0.0.0-20251109023503-bd0b77bdf53c/go.mod h1:00QvHQE17VbGqeCUDAJATYkCvOWo8o96zyb/zUSPCBA=
 github.com/DataDog/datadog-go v3.2.0+incompatible/go.mod h1:LButxg5PwREeZtORoXG3tL4fMGNddJ+vMq1mwgfaqoQ=
 github.com/alecthomas/template v0.0.0-20160405071501-a0175ee3bccc/go.mod h1:LOuyumcjzFXgccqObfd/Ljyb9UuFJ6TxHnclSeseNhc=
 github.com/alecthomas/template v0.0.0-20190718012654-fb15b899a751/go.mod h1:LOuyumcjzFXgccqObfd/Ljyb9UuFJ6TxHnclSeseNhc=

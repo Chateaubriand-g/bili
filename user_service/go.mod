@@ -3,7 +3,7 @@ module github.com/Chateaubriand-g/bili/user_service
 go 1.25.3
 
 require (
-	github.com/Chateaubriand-g/bili/common v0.0.0-20251108092852-0192c1cc68ba
+	github.com/Chateaubriand-g/bili/common v0.0.0-20251109023503-bd0b77bdf53c
 	github.com/aliyun/alibabacloud-oss-go-sdk-v2 v1.3.0
 	github.com/gin-gonic/gin v1.11.0
 	github.com/hashicorp/consul/api v1.33.0

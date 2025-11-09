@@ -19,7 +19,7 @@ CREATE TABLE IF NOT EXISTS `videos` (
     `cover_url` varchar(255) DEFAULT '',
     `name` varchar(200) NOT NULL,
     `intro` varchar(500) DEFAULT '这是简介.',
-    `owner_id` id NOT NULL,
+    `owner_id` int unsigned NOT NULL,
     `create_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
     PRIMARY KEY (`id`),
     INDEX idx_owner_id (`owner_id`),
