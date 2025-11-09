@@ -5,7 +5,7 @@ CREATE TABLE IF NOT EXISTS `users` (
     `password` varchar(64) NOT NULL,
     `nickname` varchar(32) DEFAULT 'guet',
     `gender` varchar(8) DEFAULT NULL,
-    `description` text DEFAULT '这是简介.',
+    `description` text,
     `email` varchar(128) DEFAULT NULL,
     `avatar` varchar(255) DEFAULT NULL,
     `create_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
