@@ -4,7 +4,7 @@ import (
 	"fmt"
 
 	"github.com/Chateaubriand-g/bili/common/database"
-	"github.com/Chateaubriand-g/bili/notification_service/config"
+	"github.com/hashicorp/consul/agent/config"
 
 	"gorm.io/gorm"
 )
