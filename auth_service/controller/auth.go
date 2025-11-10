@@ -44,8 +44,9 @@ func (ctl *AuthController) Login(c *gin.Context) {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
-	var user model.User
-	if _, err := ctl.dao.FindByUsername(in.Username); err != nil {
+	var user *model.User
+	user, err := ctl.dao.FindByUsername(in.Username)
+	if err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
 		return
 	}
@@ -54,7 +55,10 @@ func (ctl *AuthController) Login(c *gin.Context) {
 		return
 	}
 	token, _ := middleware.GenerateToken(uint64(user.ID), user.UserName)
-	c.JSON(http.StatusOK, gin.H{"token": token, "user": gin.H{"id": user.ID, "username": user.UserName}})
+	c.JSON(http.StatusOK, model.SuccessResponse(gin.H{"token": token, "user": gin.H{
+		"username": user.UserName,
+		"nickname": user.NickName,
+	}}))
 }
 
 func (ctl *AuthController) Logout(c *gin.Context) {

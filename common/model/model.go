@@ -33,3 +33,15 @@ type UserInfoUpdate struct {
 type UserAvatatUpdate struct {
 	Avatar string `json:"avatar"`
 }
+
+type Notification struct {
+	ID         uint64    `json:"id" gorm:"primarykey"`
+	UserID     uint64    `json:"user_id"`
+	Type       int8      `json:"type"`
+	FromUserID uint64    `json:"from_user_id"`
+	BizID      uint64    `json:"biz_id"`
+	Payload    string    `json:"payload"`
+	IsRead     uint8     `json:"is_read"`
+	DeleteddAt time.Time `json:"deleted_at"`
+	CreatedAt  time.Time `json:"created_at"`
+}

@@ -25,3 +25,19 @@ CREATE TABLE IF NOT EXISTS `videos` (
     INDEX idx_owner_id (`owner_id`),
     INDEX idx_create_time (`create_time`)
 ) ENGINE=InnoDB AUTO_INCREMENT=128 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+CREATE TABLE IF NOT EXISTS `notifications` {
+    `id` bigint unsigned AUTO_INCREMENT PRIMARY KEY,
+    `user_id` bigint unsigned NOT NULL,
+    `type` tinyint NOT NULL,  -- 0:reply,1:@,3:system,4:pm,5:follow
+    `from_user_id` bigint unsigned DEFAULT NULL,
+    `biz_id` bigint unsigned DEFAULT NULL,
+    `payload` json NOT NULL DEFAULT (`{}`),
+    `is_read` tinyint unsigned NOT NULL DEFAULT 0,
+    `deleted_at` datetime DEFAULT NULL,
+    `created_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    PRIMARY KEY (`id`),
+    INDEX `idx_user_unread_create` (`user_id`,`is_read`,`created_at` DESC),
+    INDEX `idx_user_biz` (`user_id`,`biz_id`,`type`),
+    INDEX `idx_from_user` (`from_user_id`,`created_at` DESC)
+} ENGINE=InnoDB DEFAULT CHARSET=utf8mb4  COLLATE=utf8mb4_0900_ai_ci;
