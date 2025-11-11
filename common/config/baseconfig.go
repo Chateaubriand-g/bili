@@ -1,11 +1,7 @@
 package config
 
 import (
-	"fmt"
-	"strings"
 	"time"
-
-	"github.com/spf13/viper"
 )
 
 type Config struct {
@@ -52,23 +48,23 @@ type Config struct {
 	} `mapstructure:"rocketmq"`
 }
 
-func LoadConfig() (*Config, error) {
-	viper.SetConfigName("configs")
-	viper.AddConfigPath("./config")
-	viper.SetConfigType("yaml")
+// func LoadConfig() (*Config, error) {
+// 	viper.SetConfigName("configs")
+// 	viper.AddConfigPath("./config")
+// 	viper.SetConfigType("yaml")
 
-	if err := viper.ReadInConfig(); err != nil {
-		return nil, fmt.Errorf("viper raedinconfig failed: %w", err)
-	}
+// 	if err := viper.ReadInConfig(); err != nil {
+// 		return nil, fmt.Errorf("viper raedinconfig failed: %w", err)
+// 	}
 
-	viper.SetEnvPrefix("NOTIFIC")
-	viper.SetEnvKeyReplacer(strings.NewReplacer(".", "_"))
-	viper.AutomaticEnv()
+// 	viper.SetEnvPrefix("NOTIFIC")
+// 	viper.SetEnvKeyReplacer(strings.NewReplacer(".", "_"))
+// 	viper.AutomaticEnv()
 
-	var config Config
-	if err := viper.Unmarshal(&config); err != nil {
-		return nil, fmt.Errorf("viper unmarshal failed: %w", err)
-	}
+// 	var config Config
+// 	if err := viper.Unmarshal(&config); err != nil {
+// 		return nil, fmt.Errorf("viper unmarshal failed: %w", err)
+// 	}
 
-	return &config, nil
-}
+// 	return &config, nil
+// }
