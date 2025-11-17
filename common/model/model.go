@@ -45,3 +45,17 @@ type Notification struct {
 	DeleteddAt time.Time `json:"deleted_at"`
 	CreatedAt  time.Time `json:"created_at"`
 }
+
+type Comment struct {
+	ID        uint64 `gorm:"primarykey"`
+	VideoID   uint64 `gorm:"index"`
+	UserID    uint64
+	Content   string `gorm:"type:text"`
+	ParentID  uint64 `gorm:"index;default:0:`
+	LikeCount int
+}
+
+type CommentLike struct {
+	CommentID uint64 `gorm:"primarykey"`
+	UserID    uint64 `gorm:"primarykey"`
+}

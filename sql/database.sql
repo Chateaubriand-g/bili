@@ -60,3 +60,47 @@ CREATE TABLE IF NOT EXISTS `notifications` (
     INDEX `idx_user_biz` (`user_id`,`biz_id`,`type`),
     INDEX `idx_from_user` (`from_user_id`,`created_at` DESC)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+CREATE TABLE IF NOT EXISTS `comments` (
+    `id` bigint unsigned NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    `video_id`  bigint unsigned NOT NULL,
+    `user_id` bigint unsigned NOT NULL,
+    `content` text NOT NULL,
+    `parent_id` bigint unsigned DEFAULT 0, //父评论id,0表示顶级评论
+    `like_count` int unsigned DEFAULT 0,
+    `create_at` datatime NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    INDEX `idx_video` (`video_id`)
+    INDEX `idx_parent` (`parent_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+CREATE TABLE IF NOT EXISTS comments_like (
+    user_id bigint unsigned NOT NULL,
+    comment_id bigint unsigned NOT NULL,
+    create_at datatime NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    PRIMARY KEY(user_id,comment_id)
+    INDEX idx_comment (comment_id)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+CREATE TABLE IF NOT EXISTS videos_like (
+    user_id bigint unsigned NOT NULL,
+    video_id bigint unsigned NOT NULL,
+    create_at datatime NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    PRIMARY KEY(user_id,video_id)
+    INDEX idx_video (video_id)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+CREATE TABLE IF NOT EXISTS folders (
+    id bigint unsigned NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    user_id bigint unsigned NOT NULL,
+    folder_name varcha(128) NOT NULL DEFAULT 'default',
+    create_at datatime NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    INDEX idx_usr (user_id)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+CREATE TABLE IF NOT EXISTS floder_items (
+    folder_id bigint unsigned NOT NULL,
+    video_id bigint unsigned NOT NULL,
+    add_at datatime NOT NUL DEFAULT CURRENT_TIMESTAMP,
+    PRIMARY KEY (folder_id,video_id),
+    INDEX idx_video (video_id)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci; 
