@@ -4,6 +4,7 @@ import (
 	"errors"
 	"fmt"
 	"net/http"
+	"strconv"
 	"strings"
 	"time"
 
@@ -96,9 +97,9 @@ func JWTAuth(cfg *config.Config) gin.HandlerFunc {
 			return
 		}
 
-		parts := strings.SplitN(header, "", 2)
+		parts := strings.SplitN(header, " ", 2)
 		if !(len(parts) == 2 && parts[0] == "Bearer") {
-			c.AbortWithStatusJSON(http.StatusUnauthorized, gin.H{"error": "invalid auto header"})
+			c.AbortWithStatusJSON(http.StatusUnauthorized, gin.H{"error": "invalid authorization header"})
 			return
 		}
 
@@ -117,8 +118,9 @@ func JWTAuth(cfg *config.Config) gin.HandlerFunc {
 			return
 		}
 
+		userID := strconv.FormatUint(claims.UserID, 10)
 		//X-xxx-xx 自定义请求头
-		c.Request.Header.Set("X-User-ID", claims.ID)
+		c.Request.Header.Set("X-User-ID", userID)
 		c.Next()
 	}
 }

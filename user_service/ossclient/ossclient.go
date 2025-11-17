@@ -12,7 +12,7 @@ import (
 func InitOssClient(cfg *config.Config) *oss.Client {
 	osscfg := oss.LoadDefaultConfig().
 		WithCredentialsProvider(credentials.NewEnvironmentVariableCredentialsProvider()).
-		WithRegion("cn-guangzhuo").
+		WithRegion("cn-guangzhou").
 		WithConnectTimeout(10 * time.Second).
 		WithReadWriteTimeout(30 * time.Second)
 

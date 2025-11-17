@@ -19,15 +19,27 @@ func InitRouter(cli *api.Client, cfg *config.Config, tracer *zipkin.Tracer) *gin
 
 	api := r.Group("/api")
 	{
-		user := api.Group("/user")
+		auth := api.Group("/auth")
 		{
-			account := user.Group("/account")
+			account := auth.Group("/account")
 			{
 				account.Any("/*proxy", proxy.ReverseProxy(cli, "auth-service", tracer))
 			}
 
 			//user.Use(middleware.JWTAuth(cfg))
 			//user.Any("/*proxy",proxy.ReverseProxy(cli,"user_service"))
+		}
+
+		user := api.Group("/user")
+		user.Use(middleware.JWTAuth(cfg))
+		{
+			user.Any("/*proxy", proxy.ReverseProxy(cli, "user-service", tracer))
+		}
+
+		msg := api.Group("/msg")
+		msg.Use(middleware.JWTAuth(cfg))
+		{
+			msg.GET("/*proxy", proxy.ReverseProxy(cli, "notify-service", tracer))
 		}
 
 	}

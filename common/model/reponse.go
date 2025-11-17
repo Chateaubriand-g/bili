@@ -6,6 +6,15 @@ type APIResponse struct {
 	Data    interface{} `json:"data,omitempty"`
 }
 
+type STSResponse struct {
+	EndPoint        string
+	BucketName      string
+	AccessKeyId     string
+	AccessKeySecret string
+	SecurityToken   string
+	Expiration      string
+}
+
 func SuccessResponse(data interface{}) APIResponse {
 	return APIResponse{
 		Code:    200,

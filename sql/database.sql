@@ -26,7 +26,26 @@ CREATE TABLE IF NOT EXISTS `videos` (
     INDEX idx_create_time (`create_time`)
 ) ENGINE=InnoDB AUTO_INCREMENT=128 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
-CREATE TABLE IF NOT EXISTS `notifications` {
+CREATE TABLE IF NOT EXISTS `media_objects` (
+    `id` bigint unsigned AUTO_INCREMENT PRIMARY KEY,
+    `owner_id` bigint unsigned NULL,
+    `file_md5` varchar(64) NULL,
+    `object_key` varchar(512) NOT NULL,
+    `size` bigint DEFAULT 0,
+    `status` tinyint DEFAULT 0,
+    `create_at` datetime DEFAULT CURRENT_TIMESTAMP
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+CREATE TABLE IF NOT EXISTS `media_chunks` (
+    `id` bigint unsigned AUTO_INCREMENT PRIMARY KEY,
+    `file_md5` varchar(64) NOT NULL,
+    `chunk_index` int NOT NULL,
+    `size` bigint,
+    `uploaded_at` datetime DEFAULT CURRENT_TIMESTAMP,
+    UNIQUE
+)
+
+CREATE TABLE IF NOT EXISTS `notifications` (
     `id` bigint unsigned AUTO_INCREMENT PRIMARY KEY,
     `user_id` bigint unsigned NOT NULL,
     `type` tinyint NOT NULL,  -- 0:reply,1:@,3:system,4:pm,5:follow
@@ -40,4 +59,4 @@ CREATE TABLE IF NOT EXISTS `notifications` {
     INDEX `idx_user_unread_create` (`user_id`,`is_read`,`created_at` DESC),
     INDEX `idx_user_biz` (`user_id`,`biz_id`,`type`),
     INDEX `idx_from_user` (`from_user_id`,`created_at` DESC)
-} ENGINE=InnoDB DEFAULT CHARSET=utf8mb4  COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;

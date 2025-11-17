@@ -84,6 +84,7 @@ func (ctl *UserController) UpdateAvatar(c *gin.Context) {
 	avatarfile, err := c.FormFile("file")
 	if err != nil {
 		c.JSON(http.StatusBadRequest, model.BadResponse(400, "file required", nil))
+		return
 	}
 
 	allowedTypes := map[string]bool{
@@ -101,7 +102,7 @@ func (ctl *UserController) UpdateAvatar(c *gin.Context) {
 	defer f.Close()
 
 	timestamp := time.Now().Format("20060102150405")
-	tailfix := ".img"
+	tailfix := ".jpeg"
 	if fileType == "image/png" {
 		tailfix = ".png"
 	}
@@ -119,7 +120,7 @@ func (ctl *UserController) UpdateAvatar(c *gin.Context) {
 		return
 	}
 
-	avatarURL := fmt.Sprintf("https://bili-user.oss-cn-beijing.aliyuncs.com/%s", key)
+	avatarURL := fmt.Sprintf("https://bili-gz-a1.oss-cn-guangzhou.aliyuncs.com/%s", key)
 	var temp = model.UserAvatatUpdate{
 		Avatar: avatarURL,
 	}
@@ -127,7 +128,7 @@ func (ctl *UserController) UpdateAvatar(c *gin.Context) {
 	if err != nil {
 		// 这里可以考虑删除已上传的OSS文件（避免垃圾文件）
 		_, _ = ctl.oss.DeleteObject(context.TODO(), &oss.DeleteObjectRequest{
-			Bucket: oss.Ptr("bili-user"),
+			Bucket: oss.Ptr("bili-gz-a1"),
 			Key:    oss.Ptr(key),
 		})
 		c.JSON(http.StatusInternalServerError, model.BadResponse(500, "failed to update user avatar: "+err.Error(), nil))

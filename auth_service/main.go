@@ -10,7 +10,17 @@ import (
 	"github.com/Chateaubriand-g/bili/auth_service/util"
 
 	"github.com/gin-gonic/gin"
+
+	swaggerFiles "github.com/swaggo/files"
+	ginSwagger "github.com/swaggo/gin-swagger"
 )
+
+// @title bili_auth_service
+// @version 1.0
+// @description 路由分发，统计鉴权
+// @termsOfService http://hostip/
+
+// @BasePath /api/auth
 
 func main() {
 	cfg, err := config.LoadConfig()
@@ -46,10 +56,11 @@ func main() {
 
 	api := r.Group("/api")
 	{
-		api.POST("/user/account/register", authCTL.Register)
-		api.POST("/user/account/login", authCTL.Login)
-		api.POST("/user/account/logout", authCTL.Logout)
+		api.POST("/auth/account/register", authCTL.Register)
+		api.POST("/auth/account/login", authCTL.Login)
+		api.POST("/auth/account/logout", authCTL.Logout)
 	}
 
+	r.GET("/swagger/*proxy", ginSwagger.WrapHandler(swaggerFiles.Handler))
 	r.Run(":8081")
 }

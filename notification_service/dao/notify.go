@@ -34,7 +34,7 @@ func NewNotifyDAO(db *gorm.DB, rds *redis.Client) NotifyDAO {
 func (dao *notifyDAO) GetUnreadByType(userID uint64) (interface{}, error) {
 	typeKeys := make([]string, maxNotifyType-minNotifyType+1)
 	for i := minNotifyType; i < maxNotifyType; i++ {
-		typeKeys = append(typeKeys, fmt.Sprintf("notify:unread:type:%d:%d", userID, i))
+		typeKeys[i] = fmt.Sprintf("notify:unread:type:%d:%d", userID, i)
 	}
 
 	ctx, cancel := context.WithTimeout(context.Background(), 2*time.Second)
@@ -46,7 +46,7 @@ func (dao *notifyDAO) GetUnreadByType(userID uint64) (interface{}, error) {
 	}
 
 	counts := make([]uint64, maxNotifyType-minNotifyType+1)
-	for i, _ := range typeKeys {
+	for i := range typeKeys {
 		val := results[i]
 		if val == nil {
 			//TODO

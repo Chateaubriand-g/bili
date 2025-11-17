@@ -33,11 +33,11 @@ func (ctl *NotifyController) GetUnreadByType(c *gin.Context) {
 		return
 	}
 	c.JSON(http.StatusOK, model.SuccessResponse(gin.H{
-		"reply":    countTypes.([]int)[0],
-		"at":       countTypes.([]int)[1],
-		"love":     countTypes.([]int)[2],
-		"system":   countTypes.([]int)[3],
-		"whisper":  countTypes.([]int)[4],
-		"dynamicL": countTypes.([]int)[5],
+		"reply":    countTypes.([]uint64)[0],
+		"at":       countTypes.([]uint64)[1],
+		"love":     countTypes.([]uint64)[2],
+		"system":   countTypes.([]uint64)[3],
+		"whisper":  countTypes.([]uint64)[4],
+		"dynamicL": countTypes.([]uint64)[5],
 	}))
 }
