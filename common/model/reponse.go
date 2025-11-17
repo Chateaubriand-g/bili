@@ -1,5 +1,15 @@
 package model
 
+type UserDTO struct {
+	ID          uint   `json:"id"`
+	UserName    string `json:"username"`
+	NickName    string `json:"nickname"`
+	Gender      string `json:"gender"`
+	Description string `json:"description"`
+	Email       string `json:"email"`
+	Avatar      string `json:"avatar"`
+}
+
 type APIResponse struct {
 	Code    int         `json:"code"`
 	Message string      `json:"message"`

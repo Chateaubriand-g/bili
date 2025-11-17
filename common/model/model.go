@@ -14,26 +14,6 @@ type User struct {
 	CreateTime  time.Time `json:"create_time" gorm:"column:create_time;type:datetime;->"`
 }
 
-type UserDTO struct {
-	ID          uint   `json:"id"`
-	UserName    string `json:"username"`
-	NickName    string `json:"nickname"`
-	Gender      string `json:"gender"`
-	Description string `json:"description"`
-	Email       string `json:"email"`
-	Avatar      string `json:"avatar"`
-}
-
-type UserInfoUpdate struct {
-	NickName    string `json:"nickname"`
-	Description string `json:"description"`
-	Gender      string `json:"gender"`
-}
-
-type UserAvatatUpdate struct {
-	Avatar string `json:"avatar"`
-}
-
 type Notification struct {
 	ID         uint64    `json:"id" gorm:"primarykey"`
 	UserID     uint64    `json:"user_id"`

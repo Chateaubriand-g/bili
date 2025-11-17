@@ -7,9 +7,9 @@ import (
 )
 
 type CommentDAO interface {
-	AddComment(*model.Comment)
-	IncrLikeNum()
-	DecrLikeNum()
+	AddComment(*model.Comment) error
+	IncrLikeNum(userID, commentID string) error
+	DecrLikeNum(userID, commentID string) error
 }
 
 type commentDAO struct {
@@ -24,4 +24,14 @@ func NewCommentDAO(db *grom.DB, rds *redis.Client) CommentDAO {
 	}
 }
 
-func (dao *commentDAO) AddComment(*model.Comment)
+func (dao *commentDAO) AddComment(*model.Comment) error {
+
+}
+
+func (dao *commentDAO) IncrLikeNum(userID, commentID string) error {
+
+}
+
+func (dao *commentDAO) DecrLikeNum(userID, commentID string) error {
+
+}
