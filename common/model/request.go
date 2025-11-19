@@ -11,9 +11,9 @@ type UserAvatatUpdate struct {
 }
 
 type CommentReq struct {
-	VideoID  string `json:"video_id"`
+	VideoID  uint64 `json:"video_id"`
 	Content  string `json:"content"`
-	ParentID string `json:"parent_id"`
+	ParentID uint64 `json:"parent_id"`
 }
 
 type CommentLikeReq struct {

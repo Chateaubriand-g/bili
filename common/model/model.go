@@ -35,7 +35,7 @@ type Comment struct {
 	LikeCount int
 }
 
-type CommentLike struct {
+type CommentsLike struct {
 	CommentID uint64 `gorm:"primarykey"`
 	UserID    uint64 `gorm:"primarykey"`
 }
