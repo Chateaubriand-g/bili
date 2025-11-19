@@ -39,3 +39,13 @@ type CommentsLike struct {
 	CommentID uint64 `gorm:"primarykey"`
 	UserID    uint64 `gorm:"primarykey"`
 }
+
+type Video struct {
+	ID       uint64 `gorm:"primarykey"`
+	Length   uint64
+	FileUrl  string `gorm:"type:varchar(255)"`
+	CoverUrl string `gorm:"type:varchar(255)"`
+	Name     string `gorm:"varchar(128)"`
+	Intro    string `gorm:"varchar(512)"`
+	OwnerID  uint64
+}

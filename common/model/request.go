@@ -20,3 +20,10 @@ type CommentLikeReq struct {
 	CommentID uint64 `json:"comment_id"`
 	Action    string `josn:"action"`
 }
+
+type CommentListReq struct {
+	VideoID   uint64 `json:"video_id"`
+	Page      uint64 `json:"page"`
+	PageSize  uint64 `json:"page_size"`
+	ReplySize uint64 `json:"reply_size"`
+}

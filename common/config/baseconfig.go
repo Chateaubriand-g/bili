@@ -44,7 +44,8 @@ type Config struct {
 	} `mapstructure:"redis"`
 
 	RocketMQ struct {
-		NameServer string `nameserver:"nameserver"`
+		NameServer string `mapstructure:"nameserver"`
+		Topic      string `mapstructure:topio`
 	} `mapstructure:"rocketmq"`
 }
 

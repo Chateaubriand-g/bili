@@ -20,3 +20,10 @@ zipkin:
   url: "http://zipkin:9411/api/v2/spans"
   servicename: gateway_service
   samplerate: 1.0
+
+redis:
+ addr: ""
+
+rocketmq:
+  nameserver: ""
+  topic: ""

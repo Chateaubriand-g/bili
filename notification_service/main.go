@@ -7,8 +7,8 @@ import (
 	"github.com/Chateaubriand-g/bili/notification_service/config"
 	"github.com/Chateaubriand-g/bili/notification_service/controller"
 	"github.com/Chateaubriand-g/bili/notification_service/dao"
+	"github.com/Chateaubriand-g/bili/notification_service/router"
 	"github.com/Chateaubriand-g/bili/notification_service/util"
-	"github.com/gin-gonic/gin"
 )
 
 func main() {
@@ -43,16 +43,7 @@ func main() {
 	userController := controller.NewNotifyController(&userDAO)
 
 	middleware.RegisterConsumer(cfg, db, rds)
-	r := gin.Default()
 
-	if tracer != nil {
-		r.Use(middleware.ZipkinMiddleware(tracer))
-	}
-
-	api := r.Group("/api")
-	{
-		api.GET("/msg-unread/all", userController.GetUnreadByType)
-	}
-
+	r := router.InitRouter(userController, tracer)
 	r.Run(":8083")
 }

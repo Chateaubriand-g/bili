@@ -8,8 +8,8 @@ import (
 	"github.com/Chateaubriand-g/bili/user_service/dao"
 	"github.com/Chateaubriand-g/bili/user_service/middleware"
 	"github.com/Chateaubriand-g/bili/user_service/ossclient"
+	"github.com/Chateaubriand-g/bili/user_service/router"
 	"github.com/Chateaubriand-g/bili/user_service/util"
-	"github.com/gin-gonic/gin"
 )
 
 func main() {
@@ -40,19 +40,6 @@ func main() {
 	userDAO := dao.NewUserDAO(db)
 	userController := controller.NewUserDAO(userDAO, oss)
 
-	r := gin.Default()
-
-	if tracer != nil {
-		r.Use(middleware.ZipkinMiddleware(tracer))
-	}
-
-	api := r.Group("/api")
-	{
-		api.GET("/user/info/get-one", userController.GetPersonalInfo)
-		api.POST("/user/info/update", userController.UpdateInfo)
-		api.POST("/user/avatar/update", userController.UpdateAvatar)
-	}
-
+	r := router.InitRouter(userController, tracer)
 	r.Run(":8082")
-
 }
