@@ -3,7 +3,7 @@ module github.com/Chateaubriand-g/bili/comment_service
 go 1.25.4
 
 require (
-	github.com/Chateaubriand-g/bili/common v0.0.0-20251119082911-bf6c4e339079
+	github.com/Chateaubriand-g/bili/common v0.0.0-20251119132938-7da9205012c3
 	github.com/gin-gonic/gin v1.11.0
 	github.com/openzipkin/zipkin-go v0.4.3
 	github.com/redis/go-redis/v9 v9.16.0

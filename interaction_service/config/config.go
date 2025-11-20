@@ -9,22 +9,21 @@ import (
 )
 
 func LoadConfig() (*config.Config, error) {
-	viper.SetConfigName("configs")
 	viper.AddConfigPath("./config")
+	viper.SetConfigName("configs")
 	viper.SetConfigType("yaml")
 
 	if err := viper.ReadInConfig(); err != nil {
-		return nil, fmt.Errorf("viper raedinconfig failed: %w", err)
+		return nil, fmt.Errorf("viper readinconfig error: %w", err)
 	}
 
-	viper.SetEnvPrefix("COMMENT")
+	viper.SetEnvPrefix("INTER")
 	viper.SetEnvKeyReplacer(strings.NewReplacer(".", "_"))
 	viper.AutomaticEnv()
 
 	var config config.Config
 	if err := viper.Unmarshal(&config); err != nil {
-		return nil, fmt.Errorf("viper unmarshal failed: %w", err)
+		return nil, fmt.Errorf("viper unmarshal config error: %w", err)
 	}
-
 	return &config, nil
 }

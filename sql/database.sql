@@ -48,7 +48,7 @@ CREATE TABLE IF NOT EXISTS `media_chunks` (
 CREATE TABLE IF NOT EXISTS `notifications` (
     `id` bigint unsigned AUTO_INCREMENT PRIMARY KEY,
     `user_id` bigint unsigned NOT NULL,
-    `type` tinyint NOT NULL,  -- 0:reply,1:@,3:system,4:pm,5:follow
+    `type` tinyint NOT NULL,  -- 0:reply,1:like,2:@;3:system,4:pm,5:follow
     `from_user_id` bigint unsigned DEFAULT NULL,
     `biz_id` bigint unsigned DEFAULT NULL,
     `payload` json NOT NULL DEFAULT (`{}`),
@@ -73,7 +73,7 @@ CREATE TABLE IF NOT EXISTS `comments` (
     INDEX `idx_parent` (`parent_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
-CREATE TABLE IF NOT EXISTS comments_like (
+CREATE TABLE IF NOT EXISTS `comments_like` (
     user_id bigint unsigned NOT NULL,
     comment_id bigint unsigned NOT NULL,
     create_at datatime NOT NULL DEFAULT CURRENT_TIMESTAMP,
@@ -81,7 +81,7 @@ CREATE TABLE IF NOT EXISTS comments_like (
     INDEX idx_comment (comment_id)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
-CREATE TABLE IF NOT EXISTS videos_like (
+CREATE TABLE IF NOT EXISTS `videos_like` (
     user_id bigint unsigned NOT NULL,
     video_id bigint unsigned NOT NULL,
     create_at datatime NOT NULL DEFAULT CURRENT_TIMESTAMP,
@@ -89,15 +89,15 @@ CREATE TABLE IF NOT EXISTS videos_like (
     INDEX idx_video (video_id)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
-CREATE TABLE IF NOT EXISTS folders (
+CREATE TABLE IF NOT EXISTS `folders` (
     id bigint unsigned NOT NULL AUTO_INCREMENT PRIMARY KEY,
     user_id bigint unsigned NOT NULL,
-    folder_name varcha(128) NOT NULL DEFAULT 'default',
+    folder_name varchar(128) NOT NULL DEFAULT 'default',
     create_at datatime NOT NULL DEFAULT CURRENT_TIMESTAMP,
     INDEX idx_usr (user_id)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
-CREATE TABLE IF NOT EXISTS floder_items (
+CREATE TABLE IF NOT EXISTS `floder_items` (
     folder_id bigint unsigned NOT NULL,
     video_id bigint unsigned NOT NULL,
     add_at datatime NOT NUL DEFAULT CURRENT_TIMESTAMP,

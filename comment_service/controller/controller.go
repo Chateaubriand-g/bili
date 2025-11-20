@@ -2,6 +2,7 @@ package controller
 
 import (
 	"context"
+	"fmt"
 	"net/http"
 	"strconv"
 
@@ -36,13 +37,13 @@ func (ctl *CommentController) GetCommentList(c *gin.Context) {
 		return
 	}
 
-	topList, err := ctl.dao.TopCommentList(CommentListReq.VideoID, CommentListReq.Page, CommentListReq.PageSize)
+	topList, err := ctl.dao.TopCommentList(in.VideoID, in.Page, in.PageSize)
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, model.BadResponse(500, err.Error(), nil))
 		return
 	}
 
-	secList, err := ctl.dao.SecCommentList(topList, CommentListReq.ReplySize)
+	secList, err := ctl.dao.SecCommentList(topList, in.ReplySize)
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, model.BadResponse(500, err.Error(), nil))
 		return
@@ -111,18 +112,39 @@ func (ctl *CommentController) ClickLike(c *gin.Context) {
 		return
 	}
 
-	if in.Action == "like" {
+	switch in.Action {
+	case "like":
 		err := ctl.dao.IncrLikeNum(uid, in.CommentID)
 		if err != nil {
 			c.JSON(http.StatusInternalServerError, model.BadResponse(500, "incrlikenum failed", nil))
 			return
 		}
-	} else if in.Action == "unlike" {
+
+		uidTo, err := ctl.dao.FindUserIDByCommentID(in.CommentID)
+		if err != nil {
+			c.JSON(http.StatusInternalServerError, model.BadResponse(500, err.Error(), nil))
+			return
+		}
+
+		v := middleware.MQMsg{
+			UserID:     uidTo,
+			Type:       1,
+			FromUserID: uid,
+			Payload: map[string]interface{}{
+				"comment_id": in.CommentID,
+				"text":       "user like your comment",
+			},
+		}
+		ctl.producer.SendEvent(context.TODO(), v)
+	case "unlike":
 		err := ctl.dao.DecrLikeNum(uid, in.CommentID)
 		if err != nil {
 			c.JSON(http.StatusInternalServerError, model.BadResponse(500, "incrlikenum failed", nil))
 			return
 		}
+	default:
+		c.JSON(http.StatusInternalServerError, model.BadResponse(500, fmt.Sprintf("unsupported action: %s", in.Action), nil))
+		return
 	}
 
 	c.JSON(http.StatusOK, model.SuccessResponse(nil))

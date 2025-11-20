@@ -49,3 +49,19 @@ type Video struct {
 	Intro    string `gorm:"varchar(512)"`
 	OwnerID  uint64
 }
+
+type VideoLike struct {
+	UserID  uint64 `gorm:"primarykey"`
+	VideoID uint64 `gorm:"primarykey"`
+}
+
+type Folder struct {
+	ID         uint64 `gorm:"primarykey,autoIncrement"`
+	UserID     uint64
+	FolderName string `gorm:"type:varchar(128)"`
+}
+
+type FolderItems struct {
+	FloderID uint64 `gorm:"primarykey"`
+	VideoID  uint64 `gorm:"primarykey"`
+}

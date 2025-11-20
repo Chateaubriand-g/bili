@@ -3,6 +3,8 @@ filippo.io/edwards25519 v1.1.0/go.mod h1:BxyFTGdWcka3PhytdK4V28tE5sGfRvvvRV7EaN4
 github.com/BurntSushi/toml v1.1.0/go.mod h1:CxXYINrC8qIiEnFrOxCa7Jy5BFHlXnUU2pbicEuybxQ=
 github.com/Chateaubriand-g/bili/common v0.0.0-20251119082911-bf6c4e339079 h1:IxRsTDb9U6uQzdbzwWMoKSs0SqsNht+LNxqNQJ675Gc=
 github.com/Chateaubriand-g/bili/common v0.0.0-20251119082911-bf6c4e339079/go.mod h1:csHwnzWamiDQyYNIl3h9LpG4awkGzmdIyi4YkPMmeqg=
+github.com/Chateaubriand-g/bili/common v0.0.0-20251119132938-7da9205012c3 h1:31J8q6Z0Uj3SWcZEh+7T5O8kP+cvsZT4EDrohsv/zUY=
+github.com/Chateaubriand-g/bili/common v0.0.0-20251119132938-7da9205012c3/go.mod h1:csHwnzWamiDQyYNIl3h9LpG4awkGzmdIyi4YkPMmeqg=
 github.com/DataDog/datadog-go v3.2.0+incompatible/go.mod h1:LButxg5PwREeZtORoXG3tL4fMGNddJ+vMq1mwgfaqoQ=
 github.com/alecthomas/template v0.0.0-20160405071501-a0175ee3bccc/go.mod h1:LOuyumcjzFXgccqObfd/Ljyb9UuFJ6TxHnclSeseNhc=
 github.com/alecthomas/template v0.0.0-20190718012654-fb15b899a751/go.mod h1:LOuyumcjzFXgccqObfd/Ljyb9UuFJ6TxHnclSeseNhc=

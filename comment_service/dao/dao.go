@@ -17,6 +17,7 @@ type CommentDAO interface {
 	IncrLikeNum(userID, commentID uint64) error
 	DecrLikeNum(userID, commentID uint64) error
 	FindUserIDByVideoID(videoID uint64) (uint64, error)
+	FindUserIDByCommentID(commentID uint64) (uint64, error)
 }
 
 type commentDAO struct {
@@ -115,4 +116,12 @@ func (dao *commentDAO) FindUserIDByVideoID(videoId uint64) (uint64, error) {
 		return 0, fmt.Errorf("find userid by videoid err: %w", err)
 	}
 	return userID, nil
+}
+
+func (dao *commentDAO) FindUserIDByCommentID(commentID uint64) (uint64, error) {
+	ret := &model.Comment{}
+	if err := dao.DB.Take(ret, commentID).Error; err != nil {
+		return 0, fmt.Errorf("find userid by videoid err: %w", err)
+	}
+	return ret.UserID, nil
 }

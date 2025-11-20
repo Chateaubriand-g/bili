@@ -1,0 +1,28 @@
+db:
+  user: "user"
+  password: "123456"
+  host: "127.0.0.1"
+  port: "3306"
+
+consul:
+  addr: "127.0.0.1:8500"
+  port: ""
+  scheme: ""
+  timeout: ""
+
+server:
+  id:   ""
+  name: ""
+  addr: "127.0.0.1:8500"
+  port: "8081"
+
+zipkin:
+  url: "http://zipkin:9411/api/v2/spans"
+  servicename: gateway_service
+  samplerate: 1.0
+
+redis:
+ addr: ""
+
+rocketmq:
+  nameserver: ""

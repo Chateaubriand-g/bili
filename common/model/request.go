@@ -18,7 +18,7 @@ type CommentReq struct {
 
 type CommentLikeReq struct {
 	CommentID uint64 `json:"comment_id"`
-	Action    string `josn:"action"`
+	Action    string `json:"action"`
 }
 
 type CommentListReq struct {
@@ -26,4 +26,9 @@ type CommentListReq struct {
 	Page      uint64 `json:"page"`
 	PageSize  uint64 `json:"page_size"`
 	ReplySize uint64 `json:"reply_size"`
+}
+
+type VideoLikeReq struct {
+	VideoID uint64 `json:"video_id"`
+	Action  string `json:"action"`
 }
