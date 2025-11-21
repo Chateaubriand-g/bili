@@ -19,6 +19,8 @@ CREATE TABLE IF NOT EXISTS `videos` (
     `cover_url` varchar(255) DEFAULT '',
     `name` varchar(128) NOT NULL,
     `intro` varchar(512) DEFAULT '这是简介.',
+    `like_count` bigint unsigned DEFAULT 0,
+    `folder_count` bigint unsigned DEFAULT 0,
     `owner_id` bigint unsigned NOT NULL,
     `create_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
     PRIMARY KEY (`id`),
@@ -97,7 +99,7 @@ CREATE TABLE IF NOT EXISTS `folders` (
     INDEX idx_usr (user_id)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
-CREATE TABLE IF NOT EXISTS `floder_items` (
+CREATE TABLE IF NOT EXISTS `folder_items` (
     folder_id bigint unsigned NOT NULL,
     video_id bigint unsigned NOT NULL,
     add_at datatime NOT NUL DEFAULT CURRENT_TIMESTAMP,

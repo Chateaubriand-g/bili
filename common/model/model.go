@@ -41,13 +41,15 @@ type CommentsLike struct {
 }
 
 type Video struct {
-	ID       uint64 `gorm:"primarykey"`
-	Length   uint64
-	FileUrl  string `gorm:"type:varchar(255)"`
-	CoverUrl string `gorm:"type:varchar(255)"`
-	Name     string `gorm:"varchar(128)"`
-	Intro    string `gorm:"varchar(512)"`
-	OwnerID  uint64
+	ID          uint64 `gorm:"primarykey"`
+	Length      uint64
+	FileUrl     string `gorm:"type:varchar(255)"`
+	CoverUrl    string `gorm:"type:varchar(255)"`
+	Name        string `gorm:"varchar(128)"`
+	Intro       string `gorm:"varchar(512)"`
+	LikeCount   uint64
+	FolderCount uint64
+	OwnerID     uint64
 }
 
 type VideoLike struct {
@@ -62,6 +64,6 @@ type Folder struct {
 }
 
 type FolderItems struct {
-	FloderID uint64 `gorm:"primarykey"`
+	FolderID uint64 `gorm:"primarykey"`
 	VideoID  uint64 `gorm:"primarykey"`
 }

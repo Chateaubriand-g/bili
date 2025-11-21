@@ -28,7 +28,7 @@ func NewAuthController(dao dao.UserDAO) *AuthController { return &AuthController
 // @Success 200 {object} model.APIResponse{data=RegisterResponse} "注册成功"
 // @Success 400 {object} model.APIResponse "请求参数错误"
 // @success 500 {object} model.APIResponse "服务器内部错误"
-// @Router /auth/register [post]
+// @Router /accounts [post]
 func (ctl *AuthController) Register(c *gin.Context) {
 	log.Println("receiver request", c.Request.URL.Path)
 	var in struct{ Username, Password, Email string }

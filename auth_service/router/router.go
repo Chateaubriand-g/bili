@@ -16,11 +16,18 @@ func InitRouter(ctl *controller.AuthController, tracer *zipkin.Tracer) *gin.Engi
 		r.Use(middleware.ZipkinMiddleware(tracer))
 	}
 
-	api := r.Group("/api")
+	v1 := r.Group("/api/v1")
 	{
-		api.POST("/auth/account/register", ctl.Register)
-		api.POST("/auth/account/login", ctl.Login)
-		api.POST("/auth/account/logout", ctl.Logout)
+		accounts := v1.Group("/accounts")
+		{
+			accounts.POST("", ctl.Register)
+		}
+
+		auth := v1.Group("/auth")
+		{
+			auth.POST("/login", ctl.Login)
+			auth.DELETE("/logout", ctl.Logout)
+		}
 	}
 
 	r.GET("/swagger/*proxy", ginSwagger.WrapHandler(swaggerFiles.Handler))

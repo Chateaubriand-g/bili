@@ -2,7 +2,6 @@ package controller
 
 import (
 	"context"
-	"fmt"
 	"net/http"
 	"strconv"
 
@@ -106,21 +105,18 @@ func (ctl *CommentController) ClickLike(c *gin.Context) {
 	}
 	uid, _ := strconv.ParseUint(uidstr, 10, 64)
 
-	var in model.CommentLikeReq
-	if err := c.ShouldBindBodyWithJSON(&in); err != nil {
-		c.JSON(http.StatusUnauthorized, model.BadResponse(400, "unauthorized", nil))
-		return
-	}
+	commentIDStr := c.Param("comments-id")
+	userIDStr := c.Param("user-id")
+	commentID, _ := strconv.ParseUint(commentIDStr, 10, 64)
 
-	switch in.Action {
-	case "like":
-		err := ctl.dao.IncrLikeNum(uid, in.CommentID)
+	if userIDStr == "" {
+		err := ctl.dao.IncrLikeNum(uid, commentID)
 		if err != nil {
 			c.JSON(http.StatusInternalServerError, model.BadResponse(500, "incrlikenum failed", nil))
 			return
 		}
 
-		uidTo, err := ctl.dao.FindUserIDByCommentID(in.CommentID)
+		uidTo, err := ctl.dao.FindUserIDByCommentID(commentID)
 		if err != nil {
 			c.JSON(http.StatusInternalServerError, model.BadResponse(500, err.Error(), nil))
 			return
@@ -131,20 +127,17 @@ func (ctl *CommentController) ClickLike(c *gin.Context) {
 			Type:       1,
 			FromUserID: uid,
 			Payload: map[string]interface{}{
-				"comment_id": in.CommentID,
+				"comment_id": commentID,
 				"text":       "user like your comment",
 			},
 		}
 		ctl.producer.SendEvent(context.TODO(), v)
-	case "unlike":
-		err := ctl.dao.DecrLikeNum(uid, in.CommentID)
+	} else {
+		err := ctl.dao.DecrLikeNum(uid, commentID)
 		if err != nil {
 			c.JSON(http.StatusInternalServerError, model.BadResponse(500, "incrlikenum failed", nil))
 			return
 		}
-	default:
-		c.JSON(http.StatusInternalServerError, model.BadResponse(500, fmt.Sprintf("unsupported action: %s", in.Action), nil))
-		return
 	}
 
 	c.JSON(http.StatusOK, model.SuccessResponse(nil))

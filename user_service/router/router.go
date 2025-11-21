@@ -20,9 +20,12 @@ func InitRouter(ctl *controller.UserController, tracer *zipkin.Tracer) *gin.Engi
 
 	v1 := r.Group("/api/v1")
 	{
-		v1.GET("/user/info/get-one", ctl.GetPersonalInfo)
-		v1.POST("/user/info/update", ctl.UpdateInfo)
-		v1.POST("/user/avatar/update", ctl.UpdateAvatar)
+		users := v1.Group("/users")
+		{
+			users.GET("/:user-id", ctl.GetPersonalInfo)
+			users.PATCH("/:user-id/info", ctl.UpdateInfo)
+			users.PUT("/:user-id/avatar", ctl.UpdateAvatar)
+		}
 	}
 
 	return r

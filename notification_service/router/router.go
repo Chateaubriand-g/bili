@@ -16,7 +16,10 @@ func InitRouter(ctl *controller.NotifyController, tracer *zipkin.Tracer) *gin.En
 
 	v1 := r.Group("/api/v1")
 	{
-		v1.GET("/msg-unread/all", ctl.GetUnreadByType)
+		messages := v1.Group("/messages")
+		{
+			messages.GET("", ctl.GetUnreadByType)
+		}
 	}
 
 	return r

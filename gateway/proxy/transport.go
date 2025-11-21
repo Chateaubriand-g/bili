@@ -9,6 +9,7 @@ import (
 	"net/http/httputil"
 	"net/url"
 	"strconv"
+	"strings"
 
 	//"strings"
 	"sync"
@@ -63,7 +64,13 @@ func ReverseProxy(cli *api.Client, serviceName string, tracer *zipkin.Tracer) gi
 		//}
 		//c.Request.URL.Path = trimPath
 
-		log.Printf("[TRACE] %s - Final path for forwarding: %s", 123123, c.Request.URL.Path)
+		path := strings.TrimPrefix(c.Request.URL.Path, c.Param("prefix"))
+		if path == "" {
+			path = "/"
+		}
+		c.Request.URL.Path = path
+
+		log.Printf("[TRACE] %d - Final path for forwarding: %s", 123123, c.Request.URL.Path)
 
 		proxy.(*httputil.ReverseProxy).ServeHTTP(c.Writer, c.Request)
 	}

@@ -16,9 +16,13 @@ func InitRouter(ctl *controller.CommentController, tracer *zipkin.Tracer) *gin.E
 
 	v1 := r.Group("/api/v1")
 	{
-		v1.GET("/comment/get", ctl.GetCommentList)
-		v1.GET("/comment/add", ctl.AddComment)
-		v1.GET("/comment/like", ctl.ClickLike)
+		comments := v1.Group("/comments")
+		{
+			comments.GET("", ctl.GetCommentList)
+			comments.POST("", ctl.AddComment)
+			comments.POST("/:comments-id/likes", ctl.ClickLike)
+			comments.DELETE("/:comments-id/likes/:user-id", ctl.ClickLike)
+		}
 	}
 
 	return r
