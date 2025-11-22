@@ -1,4 +1,4 @@
-module github.com/Chateaubriand-g/bili/interaction_service
+module github.com/Chateaubriand-g/bili/analytics_service
 
 go 1.25.4
 

@@ -10,7 +10,7 @@ import (
 )
 
 type InteractionDAO interface {
-	CreateFolder(folderName string) error
+	CreateFolder(userID uint64, folderName string) error
 	AddToFolder(videoID, folderID uint64) error
 	DeleteFromFolder(videoID, folderID uint64) error
 	IncrLike(userID, videoID uint64) error
@@ -40,7 +40,7 @@ func (dao *interactionDAO) CreateFolder(userID uint64, folderName string) error 
 
 func (dao *interactionDAO) AddToFolder(videoID, folderID uint64) error {
 	newItem := model.FolderItems{
-		FloderID: folderID,
+		FolderID: folderID,
 		VideoID:  videoID,
 	}
 

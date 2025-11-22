@@ -1,8 +1,6 @@
 filippo.io/edwards25519 v1.1.0 h1:FNf4tywRC1HmFuKW5xopWpigGjJKiJSV0Cqo0cJWDaA=
 filippo.io/edwards25519 v1.1.0/go.mod h1:BxyFTGdWcka3PhytdK4V28tE5sGfRvvvRV7EaN4VDT4=
 github.com/BurntSushi/toml v1.1.0/go.mod h1:CxXYINrC8qIiEnFrOxCa7Jy5BFHlXnUU2pbicEuybxQ=
-github.com/Chateaubriand-g/bili/common v0.0.0-20251120142555-5c24eeb6fe53 h1:EixmJPnzZujfXmucpwCOubT2RKCGIC0JvYyG+5Z71/s=
-github.com/Chateaubriand-g/bili/common v0.0.0-20251120142555-5c24eeb6fe53/go.mod h1:csHwnzWamiDQyYNIl3h9LpG4awkGzmdIyi4YkPMmeqg=
 github.com/Chateaubriand-g/bili/common v0.0.0-20251121144756-02705056786f h1:1bn8ELEnU63/FjB/x3CYlmq7Bu1dodZkLi16uC7omYs=
 github.com/Chateaubriand-g/bili/common v0.0.0-20251121144756-02705056786f/go.mod h1:csHwnzWamiDQyYNIl3h9LpG4awkGzmdIyi4YkPMmeqg=
 github.com/DataDog/datadog-go v3.2.0+incompatible/go.mod h1:LButxg5PwREeZtORoXG3tL4fMGNddJ+vMq1mwgfaqoQ=
