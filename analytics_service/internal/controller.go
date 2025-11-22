@@ -1,12 +1,15 @@
 package internal
 
-import "github.com/gin-gonic/gin"
+import (
+	"github.com/Chateaubriand-g/bili/common/mq"
+	"github.com/gin-gonic/gin"
+)
 
 type AnalyticsController struct {
 	dao AnalyticsDAO
 }
 
-func NewAnalyticsController(dao AnalyticsDAO) *AnalyticsController {
+func NewAnalyticsController(dao AnalyticsDAO, producer *mq.RocketMQProducer) *AnalyticsController {
 	return &AnalyticsController{dao: dao}
 }
 

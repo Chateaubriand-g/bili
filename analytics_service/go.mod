@@ -3,7 +3,7 @@ module github.com/Chateaubriand-g/bili/analytics_service
 go 1.25.4
 
 require (
-	github.com/Chateaubriand-g/bili/common v0.0.0-20251121144756-02705056786f
+	github.com/Chateaubriand-g/bili/common v0.0.0-20251122043513-3de9d528255f
 	github.com/gin-gonic/gin v1.11.0
 	github.com/openzipkin/zipkin-go v0.4.3
 	github.com/redis/go-redis/v9 v9.16.0

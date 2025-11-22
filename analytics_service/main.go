@@ -3,9 +3,9 @@ package main
 import (
 	"log"
 
-	"github.com/!chateaubriand-g/bili/common/mq"
 	"github.com/Chateaubriand-g/bili/analytics_service/internal"
 	"github.com/Chateaubriand-g/bili/common/middleware"
+	"github.com/Chateaubriand-g/bili/common/mq"
 )
 
 func main() {
