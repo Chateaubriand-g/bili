@@ -27,7 +27,12 @@ func main() {
 	}
 	defer middleware.CloseZipkin(reporter)
 
-	r := router.InitRouter(cli, cfg, tracer)
+	rds, err := middleware.InitRedis(cfg)
+	if err != nil {
+		log.Fatalf("init redis failed: %v", err)
+	}
+
+	r := router.InitRouter(cli, cfg, tracer, rds)
 	addr := fmt.Sprintf(":%s", cfg.Gateway.Addr)
 	if err := r.Run(addr); err != nil {
 		log.Fatalf("gatway starting failed: %v", err)

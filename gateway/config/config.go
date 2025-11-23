@@ -30,6 +30,11 @@ type Config struct {
 	Jwt struct {
 		Secret string `mapstructure:"secret"`
 	} `mapstructure:"jwt"`
+
+	Redis struct {
+		Addr     string `mapstructure:"addr"`
+		Password string `mapstructure:"password"`
+	} `mapstructure:"redis"`
 }
 
 func LoadConfig() (*Config, error) {

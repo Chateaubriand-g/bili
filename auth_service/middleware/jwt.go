@@ -14,8 +14,10 @@ import (
 )
 
 var (
-	expiredHour = 2
-	waitHour    = 0
+	ATokenexpiredHour = 2
+	ATokenwaitHour    = 0
+	RTokenexpiredHour = 24
+	RTokenwaitHour    = 0
 )
 
 var (
@@ -30,9 +32,32 @@ type Claims struct {
 	jwt.RegisteredClaims
 }
 
-func GenerateToken(userID uint64, secret string) (string, error) {
-	expiredTime := time.Now().Add(time.Duration(expiredHour) * time.Hour)
-	waitTime := time.Now().Add(time.Duration(waitHour) * time.Hour)
+func GenerateAccessToken(userID uint64, secret string) (string, error) {
+	expiredTime := time.Now().Add(time.Duration(ATokenexpiredHour) * time.Hour)
+	waitTime := time.Now().Add(time.Duration(ATokenwaitHour) * time.Hour)
+
+	claims := Claims{
+		UserID: userID,
+		RegisteredClaims: jwt.RegisteredClaims{
+			ExpiresAt: jwt.NewNumericDate(expiredTime),
+			IssuedAt:  jwt.NewNumericDate(time.Now()),
+			NotBefore: jwt.NewNumericDate(waitTime),
+			Issuer:    "g",
+			Subject:   fmt.Sprintf("%d", userID),
+		},
+	}
+
+	token := jwt.NewWithClaims(jwt.SigningMethodHS256, claims)
+	tokenstring, err := token.SignedString([]byte(secret))
+	if err != nil {
+		return "", err
+	}
+	return tokenstring, nil
+}
+
+func GenerateRefreshToken(userID uint64, secret string) (string, error) {
+	expiredTime := time.Now().Add(time.Duration(RTokenexpiredHour) * time.Hour)
+	waitTime := time.Now().Add(time.Duration(RTokenwaitHour) * time.Hour)
 
 	claims := Claims{
 		UserID: userID,

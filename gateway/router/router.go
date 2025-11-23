@@ -5,12 +5,13 @@ import (
 	"github.com/Chateaubriand-g/bili/gateway/middleware"
 	"github.com/Chateaubriand-g/bili/gateway/proxy"
 	"github.com/openzipkin/zipkin-go"
+	"github.com/redis/go-redis/v9"
 
 	"github.com/gin-gonic/gin"
 	"github.com/hashicorp/consul/api"
 )
 
-func InitRouter(cli *api.Client, cfg *config.Config, tracer *zipkin.Tracer) *gin.Engine {
+func InitRouter(cli *api.Client, cfg *config.Config, tracer *zipkin.Tracer, rds *redis.Client) *gin.Engine {
 	r := gin.Default()
 
 	if tracer != nil {
@@ -19,6 +20,12 @@ func InitRouter(cli *api.Client, cfg *config.Config, tracer *zipkin.Tracer) *gin
 
 	api := r.Group("/api")
 	{
+		refresh := api.Group("/refresh")
+		refresh.Use(middleware.JWTRAuth(cfg, rds))
+		{
+			refresh.POST("token", proxy.ReverseProxy(cli, "auth-service", tracer))
+		}
+
 		auth := api.Group("/auth")
 		{
 			account := auth.Group("/account")
@@ -31,13 +38,13 @@ func InitRouter(cli *api.Client, cfg *config.Config, tracer *zipkin.Tracer) *gin
 		}
 
 		user := api.Group("/user")
-		user.Use(middleware.JWTAuth(cfg))
+		user.Use(middleware.JWTAuth(cfg, rds))
 		{
 			user.Any("/*proxy", proxy.ReverseProxy(cli, "user-service", tracer))
 		}
 
 		msg := api.Group("/msg")
-		msg.Use(middleware.JWTAuth(cfg))
+		msg.Use(middleware.JWTAuth(cfg, rds))
 		{
 			msg.GET("/*proxy", proxy.ReverseProxy(cli, "notify-service", tracer))
 		}

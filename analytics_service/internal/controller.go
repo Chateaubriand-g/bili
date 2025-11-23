@@ -14,5 +14,4 @@ func NewAnalyticsController(dao AnalyticsDAO, producer *mq.RocketMQProducer) *An
 }
 
 func (ctl *AnalyticsController) GetVideoStats(c *gin.Context) {
-
 }

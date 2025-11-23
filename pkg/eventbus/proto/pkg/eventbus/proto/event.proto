@@ -1,0 +1,12 @@
+syntax = "proto3";
+
+package eventbus;
+
+option go_package = "pkg/eventbus/proto;proto";
+
+message Event {
+    string event_type = 1;  //事件类型
+    string payload = 2;     //占位，后续用专门定义的消息结构配合oneof来实现事件数据载体
+    int64 timestamp = 3;
+    string source_service = 4;  //来源服务
+}

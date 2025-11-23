@@ -1,6 +1,7 @@
 package middleware
 
 import (
+	"context"
 	"errors"
 	"fmt"
 	"net/http"
@@ -9,6 +10,7 @@ import (
 	"time"
 
 	"github.com/Chateaubriand-g/bili/gateway/config"
+	"github.com/redis/go-redis/v9"
 
 	"github.com/gin-gonic/gin"
 	"github.com/golang-jwt/jwt/v5"
@@ -89,7 +91,7 @@ func ParseToken(tokenstring, secret string) (*Claims, error) {
 	return nil, ErrTokenInvalid
 }
 
-func JWTAuth(cfg *config.Config) gin.HandlerFunc {
+func JWTAuth(cfg *config.Config, rds *redis.Client) gin.HandlerFunc {
 	return func(c *gin.Context) {
 		header := c.GetHeader("Authorization")
 		if header == "" {
@@ -115,6 +117,48 @@ func JWTAuth(cfg *config.Config) gin.HandlerFunc {
 			case ErrTokenInvalid:
 				c.AbortWithStatusJSON(http.StatusUnauthorized, gin.H{"error": "token invalid"})
 			}
+			return
+		}
+
+		result := rds.Get(context.TODO(), parts[1])
+		if result.Err() != redis.Nil {
+			c.JSON(http.StatusUnauthorized, gin.H{"error": "invalid token"})
+			return
+		}
+
+		userID := strconv.FormatUint(claims.UserID, 10)
+		//X-xxx-xx 自定义请求头
+		c.Request.Header.Set("X-User-ID", userID)
+		c.Next()
+	}
+}
+
+func JWTRAuth(cfg *config.Config, rds *redis.Client) gin.HandlerFunc {
+	return func(c *gin.Context) {
+		token, err := c.Cookie("refresh_token")
+		if err != nil {
+			c.AbortWithStatusJSON(http.StatusUnauthorized, gin.H{"error": "refresh token not found"})
+			return
+		}
+
+		claims, err := ParseToken(token, cfg.Jwt.Secret)
+		if err != nil {
+			switch err {
+			case ErrTokenExpired:
+				c.AbortWithStatusJSON(http.StatusUnauthorized, gin.H{"error": "token expired"})
+			case ErrTokenNotValidYet:
+				c.AbortWithStatusJSON(http.StatusUnauthorized, gin.H{"error": "token not valid yet"})
+			case ErrSignatureInvalid:
+				c.AbortWithStatusJSON(http.StatusUnauthorized, gin.H{"error": "token signature error"})
+			case ErrTokenInvalid:
+				c.AbortWithStatusJSON(http.StatusUnauthorized, gin.H{"error": "token invalid"})
+			}
+			return
+		}
+
+		result := rds.Get(context.TODO(), token)
+		if result.Err() != redis.Nil {
+			c.JSON(http.StatusUnauthorized, gin.H{"error": "invalid token"})
 			return
 		}
 

@@ -3,6 +3,7 @@ package controller
 import (
 	"log"
 	"net/http"
+	"strconv"
 
 	"github.com/Chateaubriand-g/bili/auth_service/dao"
 	"github.com/Chateaubriand-g/bili/auth_service/middleware"
@@ -76,8 +77,20 @@ func (ctl *AuthController) Login(c *gin.Context) {
 		c.JSON(http.StatusBadRequest, gin.H{"error": "password error"})
 		return
 	}
-	token, _ := middleware.GenerateToken(uint64(user.ID), "abc")
-	c.JSON(http.StatusOK, model.SuccessResponse(gin.H{"token": token, "user": gin.H{
+	accesstoken, _ := middleware.GenerateAccessToken(uint64(user.ID), "abc")
+	refreshtoken, _ := middleware.GenerateRefreshToken(uint64(user.ID), "abc")
+
+	c.SetCookie(
+		"refresh_token",
+		refreshtoken,
+		24*3600,
+		"/",
+		"175.178.78.121",
+		false,
+		true,
+	)
+
+	c.JSON(http.StatusOK, model.SuccessResponse(gin.H{"token": accesstoken, "user": gin.H{
 		"username": user.UserName,
 		"nickname": user.NickName,
 	}}))
@@ -92,6 +105,19 @@ func (ctl *AuthController) Login(c *gin.Context) {
 // @Router /auth/logout [post]
 func (ctl *AuthController) Logout(c *gin.Context) {
 	c.JSON(http.StatusOK, gin.H{"ok": true})
+}
+
+func (ctl *AuthController) RenewToken(c *gin.Context) {
+	uidStr := c.GetHeader("X-User-ID")
+	if uidStr == "" {
+		c.JSON(http.StatusUnauthorized, model.BadResponse(400, "unauthorized", nil))
+		return
+	}
+	uid, _ := strconv.ParseUint(uidStr, 10, 64)
+
+	accessToken, _ := middleware.GenerateAccessToken(uid, "abc")
+
+	c.JSON(http.StatusOK, model.SuccessResponse(gin.H{"token": accessToken}))
 }
 
 // 以下为Swagger文档专用请求/响应结构体（仅用于文档生成，无需实际业务处理）
