@@ -8,8 +8,8 @@ import (
 	"github.com/Chateaubriand-g/bili/auth_service/config"
 	"github.com/Chateaubriand-g/bili/auth_service/controller"
 	"github.com/Chateaubriand-g/bili/auth_service/dao"
-	"github.com/Chateaubriand-g/bili/auth_service/middleware"
 	"github.com/Chateaubriand-g/bili/auth_service/util"
+	"github.com/Chateaubriand-g/bili/common/middleware"
 	authpb "github.com/Chateaubriand-g/bili/pkg/pb/auth"
 	"google.golang.org/grpc"
 )
