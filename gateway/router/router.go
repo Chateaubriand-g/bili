@@ -18,15 +18,15 @@ func InitRouter(cli *api.Client, cfg *config.Config, tracer *zipkin.Tracer, rds 
 		r.Use(middleware.ZipkinMiddleware(tracer))
 	}
 
-	api := r.Group("/api")
+	v1 := r.Group("/api/v1")
 	{
-		refresh := api.Group("/refresh")
+		refresh := v1.Group("/refresh")
 		refresh.Use(middleware.JWTRAuth(cfg, rds))
 		{
 			refresh.POST("token", proxy.ReverseProxy(cli, "auth-service", tracer))
 		}
 
-		auth := api.Group("/auth")
+		auth := v1.Group("/auth")
 		{
 			account := auth.Group("/account")
 			{
@@ -37,13 +37,13 @@ func InitRouter(cli *api.Client, cfg *config.Config, tracer *zipkin.Tracer, rds 
 			//user.Any("/*proxy",proxy.ReverseProxy(cli,"user_service"))
 		}
 
-		user := api.Group("/user")
+		user := v1.Group("/user")
 		user.Use(middleware.JWTAuth(cfg, rds))
 		{
 			user.Any("/*proxy", proxy.ReverseProxy(cli, "user-service", tracer))
 		}
 
-		msg := api.Group("/msg")
+		msg := v1.Group("/msg")
 		msg.Use(middleware.JWTAuth(cfg, rds))
 		{
 			msg.GET("/*proxy", proxy.ReverseProxy(cli, "notify-service", tracer))

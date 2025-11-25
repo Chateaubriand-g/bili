@@ -1,6 +1,8 @@
 package middleware
 
 import (
+	"crypto/rand"
+	"encoding/hex"
 	"errors"
 	"fmt"
 	"net/http"
@@ -55,27 +57,12 @@ func GenerateAccessToken(userID uint64, secret string) (string, error) {
 	return tokenstring, nil
 }
 
-func GenerateRefreshToken(userID uint64, secret string) (string, error) {
-	expiredTime := time.Now().Add(time.Duration(RTokenexpiredHour) * time.Hour)
-	waitTime := time.Now().Add(time.Duration(RTokenwaitHour) * time.Hour)
-
-	claims := Claims{
-		UserID: userID,
-		RegisteredClaims: jwt.RegisteredClaims{
-			ExpiresAt: jwt.NewNumericDate(expiredTime),
-			IssuedAt:  jwt.NewNumericDate(time.Now()),
-			NotBefore: jwt.NewNumericDate(waitTime),
-			Issuer:    "g",
-			Subject:   fmt.Sprintf("%d", userID),
-		},
-	}
-
-	token := jwt.NewWithClaims(jwt.SigningMethodHS256, claims)
-	tokenstring, err := token.SignedString([]byte(secret))
-	if err != nil {
+func GenerateRefreshToken() (string, error) {
+	b := make([]byte, 32)
+	if _, err := rand.Read(b); err != nil {
 		return "", err
 	}
-	return tokenstring, nil
+	return hex.EncodeToString(b), nil
 }
 
 func ParseToken(tokenstring, secret string) (*Claims, error) {

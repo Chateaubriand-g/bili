@@ -328,6 +328,7 @@ func (*LogoutResponse) Descriptor() ([]byte, []int) {
 type RefreshTokenRequest struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	Userid        string                 `protobuf:"bytes,1,opt,name=userid,proto3" json:"userid,omitempty"`
+	RefreshToken  string                 `protobuf:"bytes,2,opt,name=refresh_token,json=refreshToken,proto3" json:"refresh_token,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -365,6 +366,13 @@ func (*RefreshTokenRequest) Descriptor() ([]byte, []int) {
 func (x *RefreshTokenRequest) GetUserid() string {
 	if x != nil {
 		return x.Userid
+	}
+	return ""
+}
+
+func (x *RefreshTokenRequest) GetRefreshToken() string {
+	if x != nil {
+		return x.RefreshToken
 	}
 	return ""
 }
@@ -434,9 +442,10 @@ const file_auth_auth_proto_rawDesc = "" +
 	"\bnickname\x18\x04 \x01(\tR\bnickname\"'\n" +
 	"\rLogoutRequest\x12\x16\n" +
 	"\x06userid\x18\x01 \x01(\tR\x06userid\"\x10\n" +
-	"\x0eLogoutResponse\"-\n" +
+	"\x0eLogoutResponse\"R\n" +
 	"\x13RefreshTokenRequest\x12\x16\n" +
-	"\x06userid\x18\x01 \x01(\tR\x06userid\"9\n" +
+	"\x06userid\x18\x01 \x01(\tR\x06userid\x12#\n" +
+	"\rrefresh_token\x18\x02 \x01(\tR\frefreshToken\"9\n" +
 	"\x14RefreshTokenResponse\x12!\n" +
 	"\faccess_token\x18\x01 \x01(\tR\vaccessToken2\xf6\x01\n" +
 	"\vAuthService\x129\n" +

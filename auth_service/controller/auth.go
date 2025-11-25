@@ -78,7 +78,7 @@ func (ctl *AuthController) Login(c *gin.Context) {
 		return
 	}
 	accesstoken, _ := middleware.GenerateAccessToken(uint64(user.ID), "abc")
-	refreshtoken, _ := middleware.GenerateRefreshToken(uint64(user.ID), "abc")
+	refreshtoken, _ := middleware.GenerateRefreshToken()
 
 	c.SetCookie(
 		"refresh_token",
