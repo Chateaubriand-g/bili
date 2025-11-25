@@ -6,7 +6,7 @@ import (
 	"strconv"
 
 	"github.com/Chateaubriand-g/bili/auth_service/dao"
-	"github.com/Chateaubriand-g/bili/auth_service/middleware"
+	"github.com/Chateaubriand-g/bili/auth_service/util"
 
 	//"github.com/Chateaubriand-g/bili/auth_service/model"
 	"github.com/Chateaubriand-g/bili/common/model"
@@ -77,8 +77,8 @@ func (ctl *AuthController) Login(c *gin.Context) {
 		c.JSON(http.StatusBadRequest, gin.H{"error": "password error"})
 		return
 	}
-	accesstoken, _ := middleware.GenerateAccessToken(uint64(user.ID), "abc")
-	refreshtoken, _ := middleware.GenerateRefreshToken()
+	accesstoken, _ := util.GenerateAccessToken(uint64(user.ID), "abc")
+	refreshtoken, _ := util.GenerateRefreshToken()
 
 	c.SetCookie(
 		"refresh_token",
@@ -115,7 +115,7 @@ func (ctl *AuthController) RenewToken(c *gin.Context) {
 	}
 	uid, _ := strconv.ParseUint(uidStr, 10, 64)
 
-	accessToken, _ := middleware.GenerateAccessToken(uid, "abc")
+	accessToken, _ := util.GenerateAccessToken(uid, "abc")
 
 	c.JSON(http.StatusOK, model.SuccessResponse(gin.H{"token": accessToken}))
 }

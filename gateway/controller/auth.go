@@ -3,14 +3,17 @@ package controller
 import (
 	"context"
 	"net/http"
+	"strings"
 	"sync"
 	"time"
 
 	"github.com/Chateaubriand-g/bili/common/model"
+	"github.com/Chateaubriand-g/bili/gateway/middleware"
 	"github.com/Chateaubriand-g/bili/gateway/proxy"
 	authpb "github.com/Chateaubriand-g/bili/pkg/pb/auth"
 	"github.com/gin-gonic/gin"
 	"github.com/hashicorp/consul/api"
+	"github.com/redis/go-redis/v9"
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/codes"
 	"google.golang.org/grpc/connectivity"
@@ -19,14 +22,15 @@ import (
 
 type AuthController struct {
 	consul *api.Client
+	rds    *redis.Client
 
 	mtx       sync.RWMutex
 	rpcConn   *grpc.ClientConn
 	rpcClient authpb.AuthServiceClient
 }
 
-func NewAuthController(cli *api.Client) *AuthController {
-	return &AuthController{consul: cli}
+func NewAuthController(cli *api.Client, rds *redis.Client) *AuthController {
+	return &AuthController{consul: cli, rds: rds}
 }
 
 func (ctl *AuthController) Register(c *gin.Context) {
@@ -104,6 +108,18 @@ func (ctl *AuthController) Login(c *gin.Context) {
 }
 
 func (ctl *AuthController) Logout(c *gin.Context) {
+	token := c.GetHeader("Authorization")
+
+	parts := strings.SplitN(token, " ", 2)
+	claims, err := middleware.ParseToken(parts[1], "abc")
+	if err != nil {
+		c.JSON(401, gin.H{"error": "invalid token"})
+		return
+	}
+
+	ttl := time.Until(time.Unix(claims.ExpiresAt.Unix(), 0))
+	ctl.rds.Set(context.TODO(), parts[1], 1, ttl)
+
 	client, err := ctl.getClient()
 	if err != nil {
 		c.JSON(http.StatusBadGateway, gin.H{"error": err.Error()})

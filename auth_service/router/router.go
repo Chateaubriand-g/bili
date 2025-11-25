@@ -2,7 +2,7 @@ package router
 
 import (
 	"github.com/Chateaubriand-g/bili/auth_service/controller"
-	"github.com/Chateaubriand-g/bili/auth_service/middleware"
+	"github.com/Chateaubriand-g/bili/common/middleware"
 	"github.com/gin-gonic/gin"
 	"github.com/openzipkin/zipkin-go"
 	swaggerFiles "github.com/swaggo/files"

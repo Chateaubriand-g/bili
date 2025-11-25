@@ -3,7 +3,7 @@ package util
 import (
 	"fmt"
 
-	"github.com/Chateaubriand-g/bili/auth_service/config"
+	"github.com/Chateaubriand-g/bili/common/config"
 	"github.com/Chateaubriand-g/bili/common/database"
 
 	"gorm.io/gorm"

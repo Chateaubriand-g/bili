@@ -6,7 +6,8 @@ import (
 	"strconv"
 
 	"github.com/Chateaubriand-g/bili/auth_service/dao"
-	"github.com/Chateaubriand-g/bili/auth_service/middleware"
+	"github.com/Chateaubriand-g/bili/auth_service/util"
+	"github.com/Chateaubriand-g/bili/common/middleware"
 	"github.com/Chateaubriand-g/bili/common/model"
 	authpb "github.com/Chateaubriand-g/bili/pkg/pb/auth"
 	"golang.org/x/crypto/bcrypt"
@@ -65,12 +66,12 @@ func (s *GRPCServer) Login(ctx context.Context, req *authpb.LoginRequest) (*auth
 	if bcrypt.CompareHashAndPassword([]byte(user.PassWord), []byte(req.GetPassword())) != nil {
 		return nil, status.Error(codes.Unauthenticated, "invaild username or password")
 	}
-	accesstoken, err := middleware.GenerateAccessToken(uint64(user.ID), "abc")
+	accesstoken, err := util.GenerateAccessToken(uint64(user.ID), "abc")
 	if err != nil {
 		return nil, status.Errorf(codes.Internal, "generate token err: %v", err)
 	}
 
-	refreshtoken, err := middleware.GenerateRefreshToken()
+	refreshtoken, err := util.GenerateRefreshToken()
 	if err != nil {
 		return nil, status.Errorf(codes.Internal, "generate rtoken err: %v", err)
 	}
@@ -88,7 +89,7 @@ func (s *GRPCServer) Logout(ctx context.Context, req *authpb.LogoutRequest) (*au
 	if req.GetUserid() == "" || req.GetRefreshToken() == "" {
 		return nil, status.Error(codes.InvalidArgument, "userid and refreshtoken is required")
 	}
-	uid, err := strconv.ParseUint(req.GetUserid(), 10, 64)
+	uid, _ := strconv.ParseUint(req.GetUserid(), 10, 64)
 	_ := s.dao.DeleteRefreshToken(req.GetRefreshToken(), uid)
 	return &authpb.LogoutResponse{}, nil
 }

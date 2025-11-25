@@ -44,7 +44,12 @@ func main() {
 		log.Fatalf("init databse failed: %v", err)
 	}
 
-	userDAO := dao.NewUserDAO(db)
+	rds, err := middleware.InitRedis(cfg)
+	if err != nil {
+		log.Fatalf("init databse failed: %v", err)
+	}
+
+	userDAO := dao.NewUserDAO(db, rds)
 	// authCTL := controller.NewAuthController(userDAO)
 
 	// r := router.InitRouter(authCTL, tracer)
