@@ -7,7 +7,7 @@ import (
 	"github.com/openzipkin/zipkin-go"
 )
 
-func InitRouter(ctl *controller.InteractionController, tracer *zipkin.Tracer) {
+func InitRouter(ctl *controller.InteractionController, tracer *zipkin.Tracer) *gin.Engine {
 	r := gin.Default()
 
 	if tracer != nil {
@@ -34,4 +34,6 @@ func InitRouter(ctl *controller.InteractionController, tracer *zipkin.Tracer) {
 			}
 		}
 	}
+
+	return r
 }

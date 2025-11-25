@@ -9,10 +9,6 @@ RUN go env -w GOPROXY=https://goproxy.cn,direct && \
 
 COPY . .
 
-# 编译网关服务：
-# 1. CGO_ENABLED=0：禁用 CGO，生成静态二进制（不依赖系统库，Alpine 可直接运行）
-# 2. -ldflags "-w -s"：移除调试信息，减小二进制体积
-# 3. -o gateway：指定输出文件名为 gateway（与启动命令一致）
 RUN CGO_ENABLED=0 go build -ldflags "-w -s" -o gateway main.go
 
 

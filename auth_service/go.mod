@@ -6,7 +6,6 @@ require (
 	github.com/Chateaubriand-g/bili/common v0.0.0-20251123124349-6a39011524e0
 	github.com/gin-gonic/gin v1.11.0
 	github.com/golang-jwt/jwt/v5 v5.3.0
-	github.com/hashicorp/consul/api v1.33.0
 	github.com/openzipkin/zipkin-go v0.4.3
 	github.com/redis/go-redis/v9 v9.17.0
 	github.com/spf13/viper v1.21.0
@@ -31,6 +30,7 @@ require (
 	github.com/golang/mock v1.6.0 // indirect
 	github.com/google/uuid v1.6.0 // indirect
 	github.com/gorilla/websocket v1.5.3 // indirect
+	github.com/hashicorp/consul/api v1.33.0 // indirect
 	github.com/josharian/intern v1.0.0 // indirect
 	github.com/mailru/easyjson v0.7.6 // indirect
 	github.com/patrickmn/go-cache v2.1.0+incompatible // indirect
@@ -49,7 +49,7 @@ require (
 
 require (
 	filippo.io/edwards25519 v1.1.0 // indirect
-	github.com/Chateaubriand-g/bili/pkg v0.0.0-20251123124349-6a39011524e0
+	github.com/Chateaubriand-g/bili/pkg v0.0.0-20251125101020-8656726f4524
 	github.com/armon/go-metrics v0.4.1 // indirect
 	github.com/bytedance/sonic v1.14.0 // indirect
 	github.com/bytedance/sonic/loader v0.3.0 // indirect

@@ -7,7 +7,6 @@ import (
 
 	"github.com/Chateaubriand-g/bili/auth_service/dao"
 	"github.com/Chateaubriand-g/bili/auth_service/util"
-	"github.com/Chateaubriand-g/bili/common/middleware"
 	"github.com/Chateaubriand-g/bili/common/model"
 	authpb "github.com/Chateaubriand-g/bili/pkg/pb/auth"
 	"golang.org/x/crypto/bcrypt"
@@ -90,7 +89,11 @@ func (s *GRPCServer) Logout(ctx context.Context, req *authpb.LogoutRequest) (*au
 		return nil, status.Error(codes.InvalidArgument, "userid and refreshtoken is required")
 	}
 	uid, _ := strconv.ParseUint(req.GetUserid(), 10, 64)
-	_ := s.dao.DeleteRefreshToken(req.GetRefreshToken(), uid)
+	err := s.dao.DeleteRefreshToken(req.GetRefreshToken(), uid)
+	if err != nil {
+		return nil, status.Errorf(codes.Internal, "delete refreshtoken err: %w", err)
+	}
+
 	return &authpb.LogoutResponse{}, nil
 }
 
@@ -104,11 +107,15 @@ func (s *GRPCServer) RefreshToken(ctx context.Context, req *authpb.RefreshTokenR
 		return nil, status.Error(codes.InvalidArgument, "userid must be numeric")
 	}
 
-	if !s.dao.IsTokenVaild(req.GetRefreshToken(), uid) {
-		return nil, status.Error(codes.Internal, "invaild refreshtoken")
+	vaild, err := s.dao.IsTokenVaild(req.GetRefreshToken(), uid)
+	if err != nil {
+		return nil, status.Error(codes.InvalidArgument, "invaild refreshtoken")
+	}
+	if !vaild {
+		return nil, status.Error(codes.InvalidArgument, "invaild refreshtoken")
 	}
 
-	accessToken, err := middleware.GenerateAccessToken(uid, "abc")
+	accessToken, err := util.GenerateAccessToken(uid, "abc")
 	if err != nil {
 		return nil, status.Errorf(codes.Internal, "generate access token failed: %v", err)
 	}
