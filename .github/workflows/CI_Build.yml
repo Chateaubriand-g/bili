@@ -1,0 +1,64 @@
+name: CI Build and Push
+
+on: # 触发工作流的条件
+  push:
+    branches:
+      - develop
+  #pull_request:
+
+jobs:
+  build-and-push:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        service:
+          - name: gateway
+            image: ml-gateway
+          - name: auth_service
+            image: ml-auth-service
+          - name: user_service
+            image: ml-user-service
+          - name: media_service
+            image: ml-media-service
+          - name: comment_service
+            image: ml-comment-service
+          - name: interaction_service
+            image: ml-interaction-service
+          - name: notification_service
+            image: ml-notification-service
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      # 配置 Hosts 解决Runner找不到自定义域名的问题
+      - name: Add Hosts
+        run: |
+          echo "${{secrets.HARBOR_IP}} ${{secrets.HARBOR_HOST}}" | sudo tee -a /etc/hosts
+
+      - name: Configure Docker Daemon
+        run: |
+          echo "{"insecure-registries": ["${{secrets.HARBOR_HOST}}"]}" | sudo tee /etc/docker/daemon.json
+          sudo systemctl restart docker
+          sleep 5
+
+      - name: Login to Harbor
+        run: |
+          echo "${{secrets.HARBOR_PASSWORD}}" | docker login ${{secrets.HARBOR_HOST}} -u ${{secrets.HARBOR_USERNAME}} -- password-stdin
+
+      - name: Build and Push ${{matrix.service.name}}
+        run: |
+          SERVICE_DIR="${{matrix.service.name}}"
+          IMAGE_NAME="${{matrix.service.image}}"
+          FULL_IMAGE_TAG="${{secrets.HARBOR_HOST}}/microlight/${IMAGE_NAME}:${{github.sha}}"
+          LATEST_TAG="${{secrets.HARBOR_HOST}}/microlight/${IMAGE_NAME}:latest"
+          
+          echo "开始构建服务: $SERVICE_DIR"
+          echo "镜像地址: $FULL_IMAGE_TAG"
+          
+          # -f 指定构建的Dockerfile的位置， .指在当前目录构建
+          docker build -t $FULL_IMAGE_TAG -t $LATEST_TAG -f $SERVICE_DIR/Dockerfile $SERVICE_DIR
+          
+          docker push $FULL_IMAGE_TAG
+          docker push $LATEST_TAG
